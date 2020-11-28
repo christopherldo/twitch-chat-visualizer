@@ -6,6 +6,8 @@ const http = require('http').createServer(app);
 const io = require('socket.io')(http);
 const request = require('then-request');
 
+const config = require('./data/config.json');
+
 //Webclient IO
 app.use(express.static('./public'));
 
@@ -15,8 +17,8 @@ app.get('/', (req, res) => {
 
 app.use('/static', express.static('public'));
 
-http.listen(3000, () => {
-  console.log('listening on *:3000');
+http.listen(config.port, () => {
+  console.log(`listening on localhost:${config.port}`);
 });
 
 io.on('connection', (socket) => {
@@ -30,9 +32,6 @@ if(!fs.existsSync(dir)){
 }
 
 // Require Configurations
-const config = require('./data/config.json');
-
-
 const client = new tmi.Client({
   connection: {
     secure: true,
