@@ -112,8 +112,63 @@ function openMenu(){
 
     document.body.style.fontSize = fontSize + 'px';
   }, false);
+
+  const transparent = document.getElementById('transparent');
+
+  transparent.addEventListener("input", function(){
+    let nameBackgroundColor = (nameBackground.value).replace('#', '');
+    let nameTextColor = (nameColor.value).replace('#', '');
+    let messageBackgroundColor = (messageBackground.value).replace('#', '');
+    let messageTextColor = (messageColor.value).replace('#', '');
+    let fontSize = chatFontSize.value;
+
+    const transparentObject = {
+      nameBackgroundColor,
+      nameTextColor,
+      messageBackgroundColor,
+      messageTextColor,
+      fontSize
+    };
+
+    socket.emit('transparent', transparentObject);
+  });
 };
 
 function closeMenu(){
   document.getElementById('menu').style.display = 'none';
 };
+
+socket.on('redirect', function(link){
+  if(transparent.checked){
+    document.querySelector('.modal').style.opacity = 0;
+    document.querySelector('.modal').style.display = 'flex';
+    setTimeout(() => {
+      document.querySelector('.modal').style.opacity = 1;
+    }, 100);
+    document.querySelector('.copy-field input').value = link;
+  }
+});
+
+function closeModal(){
+  document.querySelector('.modal').style.opacity = 0;
+  setTimeout(() => {
+    document.querySelector('.modal').style.display = 'none';
+    document.querySelector('.modal h1').innerHTML = 'Your transparent chat link was generated'
+  }, 200);
+  transparent.checked = false;
+};
+
+document.querySelector('.modal a').addEventListener('click', function(event){
+  event.preventDefault();
+  
+  let linkToCopy = document.querySelector('.copy-field input');
+
+  navigator.clipboard.writeText(linkToCopy.value).then(() => {
+    document.querySelector('.modal h1').innerHTML = 'Copied'
+  });
+
+});
+
+function copyLink(){
+  
+}

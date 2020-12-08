@@ -7,6 +7,7 @@ const io = require('socket.io')(http);
 const request = require('then-request');
 
 const config = require('./data/config.json');
+const { transcode } = require('buffer');
 
 //Webclient IO
 app.use(express.static('./public'));
@@ -15,7 +16,12 @@ app.get('/', (req, res) => {
   res.sendFile('index.html');
 });
 
+app.get('/transparent', (req, res) => {
+  res.sendFile(__dirname + '/public/transparent/index.html')
+});
+
 app.use('/static', express.static('public'));
+app.use('/transparent', express.static('public'));
 
 http.listen(config.port, () => {
   console.log(`listening on localhost:${config.port}`);
@@ -23,7 +29,22 @@ http.listen(config.port, () => {
 
 io.on('connection', (socket) => {
   console.log('Webclient connected');
+  socket.on('transparent', object => {
+    sendTransparentLink(object);
+  });
 });
+
+function sendTransparentLink(object){
+  let nameBackground = object.nameBackgroundColor;
+  let nameColor = object.nameTextColor;
+  let messageBackground = object.messageBackgroundColor;
+  let messageColor = object.messageTextColor;
+  let fontSize = object.fontSize;
+  
+  let link = `localhost:${config.port}/transparent/?namebackground=${nameBackground}&namecolor=${nameColor}&messagebackground=${messageBackground}&messagecolor=${messageColor}&fontsize=${fontSize}`;
+
+  io.emit('redirect', link)
+}
 
 // Directory verifier/creator
 let dir = './data';
