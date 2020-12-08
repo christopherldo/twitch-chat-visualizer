@@ -14,7 +14,9 @@ Welcome to this Chat Visualizer.
 * Put your channel where is <CHANNEL_NAME> (Do not remove the quotes);
 * Save the file;
 * You will need node.js to run this application ([You can get it here](https://nodejs.org/en/));
-* Start the ./app.js using node (node app.js);
+* Install yarn (npm install -g yarn);
+* Install all the dependencies it needs with yarn (yarn install);
+* Start the app with yarn (yarn start);
 * Open your browser and enter in the following addres: [localhost:3000](http://127.0.0.1:3000) (You can change the port on config file as well);
 * Enjoy your twitch chat visualizer! :)
 
@@ -25,7 +27,9 @@ Welcome to this Chat Visualizer.
 * Coloque o nome do seu canal no lugar de <CHANNEL_NAME> (Não remova as aspas);
 * Salve o arquivo;
 * Você vai precisar do node.js para executar o aplicativo ([Você pode baixar ele aqui](https://nodejs.org/en/));
-* Execute o ./app.js utilizando o node (node app.js);
+* Instale o yarn (npm install -g yarn);
+* Instale todas as dependências do aplicativo utilizando o yarn (yarn install);
+* Abra o aplicativo utilizando o yarn (yarn start);
 * Abra seu navegador e entre no seguinte link: [localhost:3000](http://127.0.0.1:3000) (Você também pode mudar a porta nas configurações);
 * Aproveite o aplicativo para visualizar o chat da sua stream! :)
 
