@@ -1,6 +1,8 @@
 const socket = io();
 
-socket.on("message", function(messageObject) {
+let removerTimer = false;
+
+socket.on("message", function (messageObject) {
   let badges = messageObject.badges;
   let username = messageObject.username;
   let message = messageObject.message;
@@ -15,20 +17,25 @@ socket.on("message", function(messageObject) {
           <p>${message}</p>
         </div>
       </div>`
-    );
-  
+  );
+
   let maxDivs = 100;
 
-  if(document.querySelectorAll("#message").length > maxDivs){
-    document.getElementById('message').remove();
+  if (document.querySelectorAll("#message").length > maxDivs) {
+    divRemover();
   };
+
+  if (removerTimer) {
+    clearInterval(removerTimer);
+  };
+  removerTimer = setInterval(divRemover, 10000);
 });
 
-function createBadges(badges){
-  if(badges){
+function createBadges(badges) {
+  if (badges) {
     let badgeImg = ''
-    for(var index = 0; index < Object.keys(badges).length; ++index){
-      badgeImg += 
+    for (var index = 0; index < Object.keys(badges).length; ++index) {
+      badgeImg +=
         `<div 
           class="img"
           style="
@@ -66,3 +73,10 @@ styleElement.innerHTML = `
   }
 `;
 document.body.appendChild(styleElement)[0];
+
+function divRemover() {
+  let divMessage = document.getElementById('message');
+  if (divMessage) {
+    divMessage.remove();
+  };
+};

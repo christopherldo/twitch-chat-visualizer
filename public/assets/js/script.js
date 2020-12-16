@@ -1,6 +1,8 @@
 const socket = io();
 
-socket.on("message", function(messageObject) {
+let removerTimer = false;
+
+socket.on("message", function (messageObject) {
   let badges = messageObject.badges;
   let username = messageObject.username;
   let message = messageObject.message;
@@ -15,20 +17,25 @@ socket.on("message", function(messageObject) {
           <p>${message}</p>
         </div>
       </div>`
-    );
-  
+  );
+
   let maxDivs = 100;
 
-  if(document.querySelectorAll("#message").length > maxDivs){
-    document.getElementById('message').remove();
+  if (document.querySelectorAll("#message").length > maxDivs) {
+    divRemover();
   };
+
+  if (removerTimer) {
+    clearInterval(removerTimer);
+  };
+  removerTimer = setInterval(divRemover, 60000);
 });
 
-function createBadges(badges){
-  if(badges){
+function createBadges(badges) {
+  if (badges) {
     let badgeImg = ''
-    for(var index = 0; index < Object.keys(badges).length; ++index){
-      badgeImg += 
+    for (var index = 0; index < Object.keys(badges).length; ++index) {
+      badgeImg +=
         `<div 
           class="img"
           style="
@@ -42,12 +49,19 @@ function createBadges(badges){
   };
 };
 
-function openMenu(){
+function divRemover() {
+  let divMessage = document.getElementById('message');
+  if (divMessage) {
+    divMessage.remove();
+  };
+};
+
+function openMenu() {
   let menu = document.getElementById('menu');
 
-  if(menu.style.display == ''){
+  if (menu.style.display == '') {
     menu.style.display = 'flex';
-  } else if(menu.style.display == 'flex') {
+  } else if (menu.style.display == 'flex') {
     menu.style.display = 'none';
   } else {
     menu.style.display = 'flex';
@@ -55,15 +69,15 @@ function openMenu(){
 
   const chatBackground = document.getElementById('chat-background');
 
-  chatBackground.addEventListener("input", function(){
+  chatBackground.addEventListener("input", function () {
     let backgroundColor = chatBackground.value;
-    document.body.style.backgroundColor = backgroundColor;  
+    document.body.style.backgroundColor = backgroundColor;
   }, false);
-  
+
   const nameBackgroundStyle = document.createElement('style');
   const nameBackground = document.getElementById('name-background');
 
-  nameBackground.addEventListener("input", function(){
+  nameBackground.addEventListener("input", function () {
     let backgroundColor = nameBackground.value;
     nameBackgroundStyle.innerHTML = `.message .badge-and-name{background-color: ${backgroundColor};}`;
     document.body.appendChild(nameBackgroundStyle)[0];
@@ -72,17 +86,17 @@ function openMenu(){
   const nameColorStyle = document.createElement('style');
   const nameColor = document.getElementById('name-color');
 
-  nameColor.addEventListener("input", function(){
+  nameColor.addEventListener("input", function () {
     let color = nameColor.value;
     nameColorStyle.innerHTML = `.message .badge-and-name{color: ${color};}`;
     document.body.appendChild(nameColorStyle)[0];
   });
 
-  
+
   const messageBackgroundStyle = document.createElement('style');
   const messageBackground = document.getElementById('message-background');
-  
-  messageBackground.addEventListener("input", function(){
+
+  messageBackground.addEventListener("input", function () {
     let backgroundColor = messageBackground.value;
     messageBackgroundStyle.innerHTML = `.message .message-content{background-color: ${backgroundColor};}`;
     document.body.appendChild(messageBackgroundStyle)[0];
@@ -90,8 +104,8 @@ function openMenu(){
 
   const messageColorStyle = document.createElement('style');
   const messageColor = document.getElementById('message-color');
-  
-  messageColor.addEventListener("input", function(){
+
+  messageColor.addEventListener("input", function () {
     let color = messageColor.value;
     messageColorStyle.innerHTML = `.message .message-content{color: ${color};}`;
     document.body.appendChild(messageColorStyle)[0];
@@ -99,14 +113,14 @@ function openMenu(){
 
   const chatFontSize = document.getElementById('font-size');
 
-  chatFontSize.addEventListener("input", function(){
+  chatFontSize.addEventListener("input", function () {
     let fontSize = chatFontSize.value;
     let minFontSize = 8;
     let maxFontSize = 20;
 
-    if(fontSize < minFontSize){
+    if (fontSize < minFontSize) {
       fontSize = minFontSize;
-    } else if(fontSize > maxFontSize){
+    } else if (fontSize > maxFontSize) {
       fontSize = maxFontSize;
     };
 
@@ -115,7 +129,7 @@ function openMenu(){
 
   const transparent = document.getElementById('transparent');
 
-  transparent.addEventListener("input", function(){
+  transparent.addEventListener("input", function () {
     let nameBackgroundColor = (nameBackground.value).replace('#', '');
     let nameTextColor = (nameColor.value).replace('#', '');
     let messageBackgroundColor = (messageBackground.value).replace('#', '');
@@ -134,12 +148,12 @@ function openMenu(){
   });
 };
 
-function closeMenu(){
+function closeMenu() {
   document.getElementById('menu').style.display = 'none';
 };
 
-socket.on('redirect', function(link){
-  if(transparent.checked){
+socket.on('redirect', function (link) {
+  if (transparent.checked) {
     document.querySelector('.modal').style.opacity = 0;
     document.querySelector('.modal').style.display = 'flex';
     setTimeout(() => {
@@ -149,7 +163,7 @@ socket.on('redirect', function(link){
   }
 });
 
-function closeModal(){
+function closeModal() {
   document.querySelector('.modal').style.opacity = 0;
   setTimeout(() => {
     document.querySelector('.modal').style.display = 'none';
@@ -158,17 +172,44 @@ function closeModal(){
   transparent.checked = false;
 };
 
-document.querySelector('.modal a').addEventListener('click', function(event){
-  event.preventDefault();
-  
+function copyLink() {
   let linkToCopy = document.querySelector('.copy-field input');
 
   navigator.clipboard.writeText(linkToCopy.value).then(() => {
     document.querySelector('.modal h1').innerHTML = 'Copied'
   });
+};
 
+document.querySelector('.modal a').addEventListener('click', function (event) {
+  event.preventDefault();
+  copyLink();
 });
 
-function copyLink(){
-  
-}
+function setUsername() {
+  let usernameInput = document.querySelector('.set-user input');
+  let username = usernameInput.value;
+
+  if (username) {
+    socket.emit('username', username);
+    document.querySelector('.set-user span').style.display = 'none';
+    document.querySelector('.set-user--form').style.display = 'none';
+    document.querySelector('.loader').style.display = 'flex';
+  } else {
+    usernameInput.placehorder = 'Please input the channel name';
+  };
+};
+
+document.querySelector('.set-user a').addEventListener('click', function (event) {
+  event.preventDefault();
+  setUsername();
+});
+
+document.querySelector('.set-user input').addEventListener('keypress', function (event) {
+  if (event.key === 'Enter') {
+    setUsername();
+  }
+});
+
+socket.on("configured", function () {
+  document.querySelector('.set-user').style.display = 'none';
+});

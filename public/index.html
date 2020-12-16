@@ -1,5 +1,6 @@
 <!DOCTYPE html>
 <html lang="pt-br">
+
 <head>
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
@@ -9,15 +10,28 @@
   <link rel="images" href="./assets/images/premium-1.png">
   <title>ChatPrototype</title>
 </head>
+
 <body>
-  <div class="modal">
-      <div class="modal-content">
-        <div class="modal-link">
-          <div class="close-modal" onclick="closeModal()">x</div>
-          <h1>Your transparent chat link was generated</h1>
-          <a href="#" onclick="copyLink()">Click here to copy</a>
-        </div>
+  <div class="set-user">
+    <div class="set-user--area">
+      <div class="loader"></div>
+      <span>Twitch channel:</span>
+      <div class="set-user--form">
+        <label for="usuario">
+          <input type="text" name="usuario" id="usuario" placeholder="christopherldo">
+        </label>
+        <a href="#">Ok</a>
       </div>
+    </div>
+  </div>
+  <div class="modal">
+    <div class="modal-content">
+      <div class="modal-link">
+        <div class="close-modal" onclick="closeModal()">x</div>
+        <h1>Your transparent chat link was generated</h1>
+        <a href="#">Click here to copy</a>
+      </div>
+    </div>
   </div>
   <header>
     <div class="header-area">
@@ -74,4 +88,5 @@
   <script src="/socket.io/socket.io.js"></script>
   <script src="./assets/js/script.js"></script>
 </body>
+
 </html>
