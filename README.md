@@ -7,6 +7,13 @@ Take a read at this document to know how to use it.<br>
 <br>
 Welcome to this Chat Visualizer.
 
+# Screenshot
+![twitch-chat-visualizer-screenshot](https://github.com/christopherldo/twitch-chat-visualizer/blob/assets/Screenshot.png?raw=true)
+
+[Link to meduardinha on twitch](https://www.twitch.tv/meduardinha)<br>
+[Link to cellbit on twitch](https://www.twitch.tv/cellbit)<br>
+[Link to gaules on twitch](https://www.twitch.tv/gaules)<br>
+
 # Recommended Setup
 
 * Clone this repository;
@@ -33,21 +40,13 @@ Welcome to this Chat Visualizer.
 * Abra seu navegador e entre no seguinte link: [localhost:3000](http://127.0.0.1:3000) (Você também pode mudar a porta nas configurações);
 * Aproveite o aplicativo para visualizar o chat da sua stream! :)
 
-# Screenshots
-* Meduardinha:
-![Meduardinha chat](https://user-images.githubusercontent.com/68232320/100526465-9425d300-319f-11eb-965c-558ac0f93934.png)
+# Features
 
-[Link to meduardinha on twitch](https://www.twitch.tv/meduardinha)
-
-* Cellbit:
-![Cellbit chat](https://user-images.githubusercontent.com/68232320/100526467-94be6980-319f-11eb-8ad0-52f08a0711df.png)
-
-[Link to cellbit on twitch](https://www.twitch.tv/cellbit)
-
-* Gaules:
-![Gaules chat](https://user-images.githubusercontent.com/68232320/100526583-80c73780-31a0-11eb-9398-578319d5677b.png)
-
-[Link to gaules on twitch](https://www.twitch.tv/gaules)
+* Visualize yout twitch chat;
+* Choose your favorite color for each item;
+* Transparency mode for streamers to use it on OBS browser source (Use auto-refresh);
+* In real-time BTTV emotes;
+* ~~In real-time Twitch emotes~~(To be added).
 
 # Support
 
