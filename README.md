@@ -16,7 +16,7 @@ Welcome to this Chat Visualizer.
 
 # Recommended Setup
 
-* Clone this repository;
+* Clone this repository or download the zip file;
 * Open the config.json file inside of data folder (./data/config.json);
 * Put your channel where is <CHANNEL_NAME> (Do not remove the quotes);
 * Save the file;
@@ -29,7 +29,7 @@ Welcome to this Chat Visualizer.
 
 # Recommended Setup (Português)
 
-* Clone esse repositório;
+* Clone esse repositório ou baixe o arquivo .ZIP;
 * Abra o arquivo config.json dentro da pasta data (./data/config.json);
 * Coloque o nome do seu canal no lugar de <CHANNEL_NAME> (Não remova as aspas);
 * Salve o arquivo;
