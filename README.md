@@ -46,8 +46,7 @@ Welcome to this Chat Visualizer.
 * Choose your favorite color for each item;
 * Transparency mode for streamers to use it on OBS browser source (Use auto-refresh);
 * In real-time BTTV emotes;
-* In real-time Channel emotes;
-* ~~In real-time Twitch emotes~~(To be added).
+* In real-time Twitch emotes.
 
 # Support
 
