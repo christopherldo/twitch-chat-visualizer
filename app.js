@@ -95,37 +95,25 @@ function getChannelBadges() {
               .then(JSON.parse).done((res) => {
                 let bttvEmotes = res['sharedEmotes'];
 
-                request('GET',
-                `https://api.twitchemotes.com/api/v4/channels/${channelID}`).getBody('utf-8')
-                  .then(JSON.parse).done((res) => {
+                startChat(channelBadges, globalBadges, bttvEmotes);
 
-                    let channelEmotes = res['emotes']
-
-                    startChat(channelBadges, globalBadges, bttvEmotes, channelEmotes);
-                    io.emit('configured');
-                  });
+                io.emit('configured');
               });
           });
       });
   });
 };
 
-function startChat(channel, global, bttv, emotes) {
-  channelBadges = channel;
-  globalBadges = global;
-  bttvObject = bttv;
-  channelEmotes = emotes;
+function startChat(channel, global, bttv) {
+  let channelBadges = channel;
+  let globalBadges = global;
+  let bttvObject = bttv;
 
-  bttvCodes = [];
-  channelEmotesCodes = [];
-  
-  for(let i=0; i<bttvObject.length; i++){
+  let bttvCodes = [];
+
+  for (let i = 0; i < bttvObject.length; i++) {
     bttvCodes.push(bttvObject[i].code);
   };
-
-  for(let i=0; i<channelEmotes.length; i++){
-    channelEmotesCodes.push(channelEmotes[i].code);
-  }
 
   const client = new tmi.Client({
     connection: {
@@ -148,6 +136,7 @@ function startChat(channel, global, bttv, emotes) {
 
       for (let i = 0; i < Object.keys(badges).length; i++) {
         badges[i] = badges[i].split('/');
+
         if (badges[i][0] in channelBadges['badge_sets']) {
           badgesSource[i] =
             channelBadges['badge_sets'][badges[i][0]]['versions'][badges[i][1]]['image_url_1x'];
@@ -157,26 +146,53 @@ function startChat(channel, global, bttv, emotes) {
         };
       };
     };
-    
+
     messageWords = message.split(' ');
+
+    if (tags['emotes-raw']) {
+      let emotes = tags['emotes-raw'].split('/');
+
+      let links = [];
+
+      for (let i = 0; i < Object.keys(emotes).length; i++) {
+        emotes[i] = emotes[i].split(':');
+
+        emotes[i][1] = emotes[i][1].split(',');
+
+        for (let j = 0; j < Object.keys(emotes[i][1]).length; j++) {
+          emotes[i][1][j] = emotes[i][1][j].split('-');
+
+          let codigo = message.substring(
+            parseInt(emotes[i][1][j][0]), parseInt(emotes[i][1][j][1]) + 1
+          );
+
+          links.push([codigo, `<img src="https://static-cdn.jtvnw.net/emoticons/v1/${emotes[i][0]}/1.0">`]);
+        };
+      };
+
+      messageWords.some(item => {
+        for (let i = 0; i < Object.keys(links).length; i++) {
+          if (links[i][0].includes(item)) {
+            let imageSrc = links[i][1];
+
+            messageWords[messageWords.indexOf(item)] = imageSrc;
+          }
+        }
+      });
+    };
+
     messageWords.some(item => {
-      if(bttvCodes.includes(item)){
+      if (bttvCodes.includes(item)) {
         let index = bttvCodes.indexOf(item);
+
         let bttvId = bttvObject[index].id;
+
         let imageSrc = `<img src="https://cdn.betterttv.net/emote/${bttvId}/1x" alt="${item}">`;
+
         messageWords[messageWords.indexOf(item)] = imageSrc;
       };
     });
-    // 
-    messageWords.some(item => {
-      if(channelEmotesCodes.includes(item)){
-        let index = channelEmotesCodes.indexOf(item);
-        let emoteId = channelEmotes[index].id;
-        let imageSrc = `<img src="https://static-cdn.jtvnw.net/emoticons/v1/${emoteId}/1.0" alt="${item}">`;
-        messageWords[messageWords.indexOf(item)] = imageSrc;
-      }
-    });
-    
+
     message = messageWords.join(' ');
 
     messageObject = {
