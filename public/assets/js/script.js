@@ -8,7 +8,7 @@ socket.on("message", function (messageObject) {
   let message = messageObject.message;
 
   document.getElementById("chat").insertAdjacentHTML("beforeend",
-    ` <div class="message" id="message">
+    ` <div class="message user-${username}" id="message">
         <div class="badge-and-name" id="badge-and-name">
           ${createBadges(badges)}
           ${username}
@@ -212,4 +212,34 @@ document.querySelector('.set-user input').addEventListener('keypress', function 
 
 socket.on("configured", function () {
   document.querySelector('.set-user').style.display = 'none';
+});
+
+function divRemoverByUser(username) {
+  let messages = document.querySelectorAll(`.user-${username}`);
+
+  for (let message of messages) {
+    if (message) {
+      message.remove();
+    };
+  };
+};
+
+socket.on('ban', function (username) {
+  divRemoverByUser(username);
+  console.log(`Banido: ${username}`);
+});
+
+socket.on('timeout', function (username) {
+  divRemoverByUser(username);
+  console.log(`Timeout: ${username}`);
+});
+
+socket.on('messagedeleted', function (username) {
+  divRemoverByUser(username);
+  console.log(`Mensagens apagadas: ${username}`);
+});
+
+socket.on('clearchat', function () {
+  document.getElementById("chat").innerHTML = null;
+  console.log(`Chat limpo`);
 });
