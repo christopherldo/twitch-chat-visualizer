@@ -47,6 +47,7 @@ Welcome to this Chat Visualizer.
 * Transparency mode for streamers to use it on OBS browser source (Use auto-refresh);
 * In real-time BTTV emotes;
 * In real-time Twitch emotes.
+* In real-time mod deletion events.
 
 # Support
 
