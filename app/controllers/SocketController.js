@@ -28,7 +28,8 @@ module.exports = {
     connectedChannels.push(channel);
 
     console.log(`New instance started for channel: ${channel}`);
-    console.log(`Online instances: ${connectedChannels.length}`);
+    console.log(`Online instances: ${connectedChannels.join(', ')}`);
+    console.log(`Total: ${connectedChannels.length}`);
 
     getChannelBadges(socket);
   },
@@ -36,7 +37,8 @@ module.exports = {
     connectedChannels = connectedChannels.filter(item => item !== channel);
 
     console.log(`Instance closed for channel: ${channel}`);
-    console.log(`Online instances: ${connectedChannels.length}`);
+    console.log(`Online instances: ${connectedChannels.join(', ')}`);
+    console.log(`Total: ${connectedChannels.length}`);
   },
   sendTransparentLink: (object, socket) => {
     sendTransparentLink(object, socket);
