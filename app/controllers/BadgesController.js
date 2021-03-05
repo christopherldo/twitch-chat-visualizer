@@ -10,12 +10,16 @@ const getChannelID = async channel => {
         Accept: 'application/vnd.twitchtv.v5+json'
       },
     }, (err, res, body) => {
-      body = JSON.parse(body);
-      
       let channelID = null;
 
-      if(body['users'][0]){
-        channelID = body['users'][0]['_id'];
+      try {
+        body = JSON.parse(body);
+
+        if(body['users'][0]){
+          channelID = body['users'][0]['_id'];
+        }; 
+      } catch (error) {
+        console.log(`Erro: ${error.message}`);
       };
 
       resolve(channelID)
