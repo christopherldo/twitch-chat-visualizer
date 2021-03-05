@@ -24,11 +24,6 @@ socket.on("message", function (messageObject) {
   if (document.querySelectorAll("#message").length > maxDivs) {
     divRemover();
   };
-
-  if (removerTimer) {
-    clearInterval(removerTimer);
-  };
-  removerTimer = setInterval(divRemover, 10000);
 });
 
 function createBadges(badges) {
@@ -74,6 +69,13 @@ styleElement.innerHTML = `
 `;
 document.body.appendChild(styleElement)[0];
 
+function setUsername() {
+  let username = channel;
+
+  socket.emit('username', username);
+  document.querySelector('.loader').style.display = 'flex';
+};
+
 function divRemover() {
   let divMessage = document.getElementById('message');
   if (divMessage) {
@@ -90,6 +92,10 @@ function divRemoverByUser(username) {
     };
   };
 };
+
+socket.on("configured", function () {
+  document.querySelector('.loader-container').style.display = 'none';
+});
 
 socket.on('ban', function (username) {
   divRemoverByUser(username);
