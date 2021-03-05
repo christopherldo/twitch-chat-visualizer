@@ -1,0 +1,41 @@
+{{> head}}
+
+<div class="loader-container">
+  <div class="loader"></div>
+</div>
+<div class="chat" id="chat">
+
+</div>
+<style>
+  body {
+    background-color: transparent;
+  }
+
+  .loader-container {
+    height: 100vh;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+  }
+
+  header {
+    display: none;
+  }
+</style>
+<script src="/socket.io/socket.io.js"></script>
+<script src="/assets/js/transparent.js"></script>
+<script>
+  const channel = '{{channel}}';
+  setUsername();
+
+  socket.io.on('reconnect_attempt', () => {
+    console.log('Tentando reconexão!!');
+  });
+
+  socket.io.on('reconnect', () => {
+    console.log('Reconectado!');
+    socket.emit('username', channel);
+  });
+</script>
+
+{{> footer}}

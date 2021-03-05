@@ -1,0 +1,1 @@
+exports.defaultPageTitle = "TwitchChat Visualizer";

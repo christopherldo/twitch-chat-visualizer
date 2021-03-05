@@ -35,8 +35,13 @@
 }
 
 @keyframes spin {
-  0% { transform: rotate(0deg); }
-  100% { transform: rotate(360deg); }
+  0% {
+    transform: rotate(0deg);
+  }
+
+  100% {
+    transform: rotate(360deg);
+  }
 }
 
 html {
@@ -189,7 +194,7 @@ body {
 
 .message {
   margin: 5px 0;
-  animation: message-box; 
+  animation: message-box;
 }
 
 .message .badge-and-name {
@@ -299,7 +304,7 @@ body {
   align-items: center;
 }
 
-.set-user--area{
+.set-user--area {
   background-color: #fff;
   height: 200px;
   width: 300px;
@@ -310,15 +315,32 @@ body {
   flex-flow: column;
 }
 
-.set-user--form{
+.set-user--form form {
   display: flex;
   justify-content: center;
   align-items: center;
 }
 
+.set-user--form input[type=submit] {
+  border: 0;
+  background-color: #6b0080;
+  width: 40px;
+  height: 40px;
+  color: #fff;
+  border-radius: 5px;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  text-transform: uppercase;
+  align-self: flex-end;
+  cursor: pointer;
+}
+
 .loader {
-  border: 10px solid #000; /* Light grey */
-  border-top: 10px solid #6b0080; /* Blue */
+  border: 10px solid #000;
+  /* Light grey */
+  border-top: 10px solid #6b0080;
+  /* Blue */
   border-radius: 50%;
   width: 50px;
   height: 50px;
@@ -345,7 +367,7 @@ body {
   text-transform: lowercase;
 }
 
-.set-user a{
+.set-user a {
   background-color: #6b0080;
   width: 40px;
   height: 40px;

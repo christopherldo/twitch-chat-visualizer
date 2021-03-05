@@ -1,7 +1,5 @@
 const socket = io();
 
-let removerTimer = false;
-
 socket.on("message", function (messageObject) {
   let badges = messageObject.badges;
   let username = messageObject.username;
@@ -24,11 +22,6 @@ socket.on("message", function (messageObject) {
   if (document.querySelectorAll("#message").length > maxDivs) {
     divRemover();
   };
-
-  if (removerTimer) {
-    clearInterval(removerTimer);
-  };
-  removerTimer = setInterval(divRemover, 60000);
 });
 
 function createBadges(badges) {
@@ -186,29 +179,11 @@ document.querySelector('.modal a').addEventListener('click', function (event) {
 });
 
 function setUsername() {
-  let usernameInput = document.querySelector('.set-user input');
-  let username = usernameInput.value;
+  let username = channel;
 
-  if (username) {
-    socket.emit('username', username);
-    document.querySelector('.set-user span').style.display = 'none';
-    document.querySelector('.set-user--form').style.display = 'none';
-    document.querySelector('.loader').style.display = 'flex';
-  } else {
-    usernameInput.placehorder = 'Please input the channel name';
-  };
+  socket.emit('username', username);
+  document.querySelector('.loader').style.display = 'flex';
 };
-
-document.querySelector('.set-user a').addEventListener('click', function (event) {
-  event.preventDefault();
-  setUsername();
-});
-
-document.querySelector('.set-user input').addEventListener('keypress', function (event) {
-  if (event.key === 'Enter') {
-    setUsername();
-  }
-});
 
 socket.on("configured", function () {
   document.querySelector('.set-user').style.display = 'none';
