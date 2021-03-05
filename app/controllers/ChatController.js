@@ -30,11 +30,11 @@ module.exports = {
       channel,
     });
   },
-  startChat: (cBadges, gBadges, bttv, socket) => {
+  startChat: (gBadges, cBadges, bttv, socket) => {
     let channel = socket.channel;
   
-    let channelBadges = cBadges;
     let globalBadges = gBadges;
+    let channelBadges = cBadges;
     let bttvObject = bttv;
   
     let bttvCodes = [];
