@@ -146,6 +146,8 @@ function closeMenu() {
 };
 
 socket.on('redirect', function (link) {
+  link = window.location.host + link
+
   if (transparent.checked) {
     document.querySelector('.modal').style.opacity = 0;
     document.querySelector('.modal').style.display = 'flex';

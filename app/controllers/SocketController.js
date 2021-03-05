@@ -9,7 +9,7 @@ function sendTransparentLink(object, socket) {
   let messageColor = object.messageTextColor;
   let fontSize = object.fontSize;
 
-  let link = `localhost:${process.env.PORT}/${socket.channel}/transparent/?namebackground=${nameBackground}&namecolor=${nameColor}&messagebackground=${messageBackground}&messagecolor=${messageColor}&fontsize=${fontSize}`;
+  let link = `/${socket.channel}/transparent/?namebackground=${nameBackground}&namecolor=${nameColor}&messagebackground=${messageBackground}&messagecolor=${messageColor}&fontsize=${fontSize}`;
 
   socket.emit('redirect', link)
 };
