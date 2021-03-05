@@ -2,7 +2,7 @@ const BadgesController = require('./BadgesController');
 
 let connectedChannels = [];
 
-function sendTransparentLink(object, socket) {
+const sendTransparentLink = (object, socket) => {
   let nameBackground = object.nameBackgroundColor;
   let nameColor = object.nameTextColor;
   let messageBackground = object.messageBackgroundColor;
