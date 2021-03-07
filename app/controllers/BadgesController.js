@@ -17,7 +17,7 @@ const getChannelID = async channel => {
 
         channelID = body['users'][0]['_id'];
       } catch (error) {
-        console.log(`Erro: ${error.message}`);
+        console.log(`Error on const getChannelID: ${error.message}`);
       };
 
       resolve(channelID);
@@ -36,7 +36,7 @@ const getGlobalBadges = async () => {
 
           globalBadges = body;
         } catch (error) {
-          console.log(`Erro: ${error.message}`);
+          console.log(`Error on const getGlobalBadges: ${error.message}`);
         };
 
         resolve(globalBadges);
@@ -55,7 +55,7 @@ const getChannelBadges = async channelID => {
 
           channelBadges = body;
         } catch (error) {
-          console.log(`Erro: ${error.message}`);
+          console.log(`Error on const getChannelBadges: ${error.message}`);
         };
 
         resolve(channelBadges);
@@ -74,7 +74,7 @@ const getBTTVEmotes = async channelID => {
 
           bttvEmotes = body['sharedEmotes'];
         } catch (error) {
-          console.log(`Erro: ${error.message}`);
+          console.log(`Error on const getBTTVEmotes: ${error.message}`);
         };
 
         resolve(bttvEmotes);
@@ -82,7 +82,7 @@ const getBTTVEmotes = async channelID => {
   });
 };
 
-const getFFZemote = async channelID => {
+const getFFZemotes = async channelID => {
   return new Promise((resolve, reject) => {
     request(`https://api.frankerfacez.com/v1/room/id/${channelID}`,
       (err, res, body) => {
@@ -94,7 +94,7 @@ const getFFZemote = async channelID => {
 
           ffzEmotes = body[Object.keys(body)[0]].emoticons;
         } catch (error) {
-          console.log(`Erro: ${error.message}`);
+          console.log(`Error on const getFFZemotes: ${error.message}`);
         };
 
         resolve(ffzEmotes);
@@ -111,7 +111,7 @@ module.exports = {
       let globalBadgesPromise = getGlobalBadges().then(res => res);
       let channelBadgesPromise = getChannelBadges(channelID).then(res => res);
       let bttvEmotesPromise = getBTTVEmotes(channelID).then(res => res);
-      let ffzEmotesPromise = getFFZemote(channelID).then(res => res);
+      let ffzEmotesPromise = getFFZemotes(channelID).then(res => res);
 
       let [globalBadges, channelBadges, bttvEmotes, ffzEmotes] = await Promise.all([
         globalBadgesPromise,
