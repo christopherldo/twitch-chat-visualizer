@@ -20,7 +20,7 @@ module.exports = {
 
       socket.on('disconnect', () => {
         if (socket.channel) {
-          SocketController.disconnect(socket.channel);
+          SocketController.disconnect(socket);
         };
       });
     });

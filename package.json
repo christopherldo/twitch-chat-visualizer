@@ -6,7 +6,8 @@
     "request": "^2.88.2",
     "socket.io": "^3.0.3",
     "then-request": "^6.0.2",
-    "tmi.js": "^1.5.0"
+    "tmi.js": "^1.5.0",
+    "uuid": "^8.3.2"
   },
   "scripts": {
     "start": "node server.js"

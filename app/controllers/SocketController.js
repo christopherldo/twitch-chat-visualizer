@@ -1,4 +1,5 @@
 const BadgesController = require('./BadgesController');
+const uuid = require('uuid');
 
 let connectedChannels = [];
 
@@ -14,7 +15,6 @@ const sendTransparentLink = (object, socket) => {
   socket.emit('redirect', link)
 };
 
-// Badges Images
 const getChannelBadges = (socket) => {
   BadgesController.getChannelBadges(socket);
 };
@@ -22,22 +22,48 @@ const getChannelBadges = (socket) => {
 module.exports = {
   connection: (string, socket) => {
     let channel = string.toLowerCase();
+    let connectionUuid = uuid.v4();
 
     socket.channel = channel;
+    socket.uuid = connectionUuid;
 
-    connectedChannels.push(channel);
+    const channelObject = {
+      channel,
+      uuid: connectionUuid,
+    };
+
+    connectedChannels.push(channelObject);
+
+    let connectedChannelsArray = [];
+
+    for(let connectedChannel of connectedChannels){
+      if(connectedChannelsArray.includes(connectedChannel.channel) === false){
+        connectedChannelsArray.push(connectedChannel.channel);
+      };
+    };
 
     console.log(`New instance started for channel: ${channel}`);
-    console.log(`Online instances: ${connectedChannels.join(', ')}`);
+    console.log(`Online instances: ${connectedChannelsArray.join(', ')}`);
     console.log(`Total: ${connectedChannels.length}`);
 
     getChannelBadges(socket);
   },
-  disconnect: (channel) => {
-    connectedChannels = connectedChannels.filter(item => item !== channel);
+  disconnect: (socket) => {
+    let channel = socket.channel;
+    let connectionUuid = socket.uuid;
+
+    connectedChannels = connectedChannels.filter(item => item.uuid !== connectionUuid);
+
+    let connectedChannelsArray = [];
+
+    for(let connectedChannel of connectedChannels){
+      if(connectedChannelsArray.includes(connectedChannel.channel) === false){
+        connectedChannelsArray.push(connectedChannel.channel);
+      };
+    };
 
     console.log(`Instance closed for channel: ${channel}`);
-    console.log(`Online instances: ${connectedChannels.join(', ')}`);
+    console.log(`Online instances: ${connectedChannelsArray.join(', ')}`);
     console.log(`Total: ${connectedChannels.length}`);
   },
   sendTransparentLink: (object, socket) => {

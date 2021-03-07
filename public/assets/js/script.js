@@ -17,7 +17,7 @@ socket.on("message", function (messageObject) {
       </div>`
   );
 
-  let maxDivs = 100;
+  let maxDivs = 25;
 
   if (document.querySelectorAll("#message").length > maxDivs) {
     divRemover();
