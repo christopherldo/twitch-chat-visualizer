@@ -10,15 +10,17 @@ const getChannelID = async channel => {
         Accept: 'application/vnd.twitchtv.v5+json'
       },
     }, (err, res, body) => {
-      body = JSON.parse(body);
-      
       let channelID = null;
 
-      if(body['users'][0]){
+      try {
+        body = JSON.parse(body);
+
         channelID = body['users'][0]['_id'];
+      } catch (error) {
+        console.log(`Erro: ${error.message}`);
       };
 
-      resolve(channelID)
+      resolve(channelID);
     });
   });
 };
@@ -27,15 +29,19 @@ const getGlobalBadges = async () => {
   return new Promise((resolve, reject) => {
     request(`https://badges.twitch.tv/v1/badges/global/display`,
     (err, res, body) => {
-      body = JSON.parse(body);
-      
       let globalBadges = {};
 
-      if(body){
-        globalBadges = body;
+      try {
+        body = JSON.parse(body);
+
+        if(body){
+          globalBadges = body;
+        };
+      } catch (error) {
+        console.log(`Erro: ${error.message}`);
       };
 
-      resolve(globalBadges)
+      resolve(globalBadges);
     });
   });
 };
@@ -44,15 +50,19 @@ const getChannelBadges = async channelID => {
   return new Promise((resolve, reject) => {
     request(`https://badges.twitch.tv/v1/badges/channels/${channelID}/display`,
     (err, res, body) => {
-      body = JSON.parse(body);
-      
       let channelBadges = {};
+      
+      try {
+        body = JSON.parse(body);
 
-      if(body){
-        channelBadges = body;
+        if(body){
+          channelBadges = body;
+        }; 
+      } catch (error) {
+        console.log(`Erro: ${error.message}`);
       };
 
-      resolve(channelBadges)
+      resolve(channelBadges);
     });
   });
 };
@@ -61,15 +71,19 @@ const getbttvEmotes = async channelID => {
   return new Promise((resolve, reject) => {
     request(`https://api.betterttv.net/3/cached/users/twitch/${channelID}`,
     (err, res, body) => {
-      body = JSON.parse(body);
-      
       let bttvEmotes = {};
+      
+      try {
+        body = JSON.parse(body);
 
-      if(body['sharedEmotes']){
-        bttvEmotes = body['sharedEmotes'];
+        if(body['sharedEmotes']){
+          bttvEmotes = body['sharedEmotes'];
+        };
+      } catch (error) {
+        console.log(`Erro: ${error.message}`);
       };
 
-      resolve(bttvEmotes)
+      resolve(bttvEmotes);
     });
   });
 };
