@@ -28,63 +28,77 @@ const getChannelID = async channel => {
 const getGlobalBadges = async () => {
   return new Promise((resolve, reject) => {
     request(`https://badges.twitch.tv/v1/badges/global/display`,
-    (err, res, body) => {
-      let globalBadges = {};
+      (err, res, body) => {
+        let globalBadges = {};
 
-      try {
-        body = JSON.parse(body);
+        try {
+          body = JSON.parse(body);
 
-        if(body){
           globalBadges = body;
+        } catch (error) {
+          console.log(`Erro: ${error.message}`);
         };
-      } catch (error) {
-        console.log(`Erro: ${error.message}`);
-      };
 
-      resolve(globalBadges);
-    });
+        resolve(globalBadges);
+      });
   });
 };
 
 const getChannelBadges = async channelID => {
   return new Promise((resolve, reject) => {
     request(`https://badges.twitch.tv/v1/badges/channels/${channelID}/display`,
-    (err, res, body) => {
-      let channelBadges = {};
-      
-      try {
-        body = JSON.parse(body);
+      (err, res, body) => {
+        let channelBadges = {};
 
-        if(body){
+        try {
+          body = JSON.parse(body);
+
           channelBadges = body;
-        }; 
-      } catch (error) {
-        console.log(`Erro: ${error.message}`);
-      };
+        } catch (error) {
+          console.log(`Erro: ${error.message}`);
+        };
 
-      resolve(channelBadges);
-    });
+        resolve(channelBadges);
+      });
   });
 };
 
-const getbttvEmotes = async channelID => {
+const getBTTVEmotes = async channelID => {
   return new Promise((resolve, reject) => {
     request(`https://api.betterttv.net/3/cached/users/twitch/${channelID}`,
-    (err, res, body) => {
-      let bttvEmotes = {};
-      
-      try {
-        body = JSON.parse(body);
+      (err, res, body) => {
+        let bttvEmotes = {};
 
-        if(body['sharedEmotes']){
+        try {
+          body = JSON.parse(body);
+
           bttvEmotes = body['sharedEmotes'];
+        } catch (error) {
+          console.log(`Erro: ${error.message}`);
         };
-      } catch (error) {
-        console.log(`Erro: ${error.message}`);
-      };
 
-      resolve(bttvEmotes);
-    });
+        resolve(bttvEmotes);
+      });
+  });
+};
+
+const getFFZemote = async channelID => {
+  return new Promise((resolve, reject) => {
+    request(`https://api.frankerfacez.com/v1/room/id/${channelID}`,
+      (err, res, body) => {
+        let ffzEmotes = {};
+
+        try {
+          body = JSON.parse(body);
+          body = body['sets'];
+
+          ffzEmotes = body[Object.keys(body)[0]].emoticons;
+        } catch (error) {
+          console.log(`Erro: ${error.message}`);
+        };
+
+        resolve(ffzEmotes);
+      });
   });
 };
 
@@ -93,20 +107,25 @@ module.exports = {
     let channel = socket.channel;
     let channelID = await getChannelID(channel).then(res => res);
 
-    if(channelID){
+    if (channelID) {
       let globalBadgesPromise = getGlobalBadges().then(res => res);
       let channelBadgesPromise = getChannelBadges(channelID).then(res => res);
-      let bttvEmotesPromise = getbttvEmotes(channelID).then(res => res);
+      let bttvEmotesPromise = getBTTVEmotes(channelID).then(res => res);
+      let ffzEmotesPromise = getFFZemote(channelID).then(res => res);
 
-      let [globalBadges, channelBadges, bttvEmotes] = await Promise.all([
+      let [globalBadges, channelBadges, bttvEmotes, ffzEmotes] = await Promise.all([
         globalBadgesPromise,
         channelBadgesPromise,
-        bttvEmotesPromise
+        bttvEmotesPromise,
+        ffzEmotesPromise,
       ]);
 
-      ChatController.startChat(globalBadges, channelBadges, bttvEmotes, socket);
-
-      socket.emit('configured');
+      ChatController.startChat(globalBadges,
+        channelBadges,
+        bttvEmotes,
+        ffzEmotes,
+        socket
+      );
     } else {
       console.log('Not found channel');
     };
