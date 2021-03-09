@@ -1,0 +1,100 @@
+.github {
+  background-color: #333;
+  position: absolute;
+  margin-left: -80px;
+  margin-top: -40px;
+  z-index: 4;
+  width: 200px;
+  height: 100px;
+  display: flex;
+  justify-content: center;
+  padding-bottom: 10px;
+  align-items: flex-end;
+  transform: rotate(-45deg);
+}
+
+.github svg {
+  fill: #fff;
+  transition: all 0.2s ease-in-out 0s;
+}
+
+.github a:hover > svg {
+  fill: #a89b9b;
+  transform: scale(1.2);
+}
+
+.set-user {
+  position: absolute;
+  height: 100%;
+  width: 100%;
+  background-color: #000;
+  z-index: 3;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+}
+
+.set-user--area {
+  background-color: #fff;
+  height: 200px;
+  width: 300px;
+  border-radius: 20px;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  flex-flow: column;
+}
+
+.set-user--form form {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+}
+
+.set-user--form input[type=submit] {
+  border: 0;
+  background-color: #6b0080;
+  width: 40px;
+  height: 40px;
+  color: #fff;
+  border-radius: 5px;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  text-transform: uppercase;
+  align-self: flex-end;
+  cursor: pointer;
+}
+
+.set-user label {
+  display: flex;
+  width: 100%;
+  flex-flow: column;
+  font-size: 18px;
+  align-items: center;
+}
+
+.set-user label input {
+  margin-top: 10px;
+  height: 30px;
+  display: flex;
+  width: 150px;
+  border: 0;
+  border-bottom: 1px solid #111;
+  padding: 5px;
+  text-transform: lowercase;
+}
+
+.set-user a {
+  background-color: #6b0080;
+  width: 40px;
+  height: 40px;
+  color: #fff;
+  border-radius: 5px;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  text-transform: uppercase;
+  text-decoration: none;
+  align-self: flex-end;
+}
