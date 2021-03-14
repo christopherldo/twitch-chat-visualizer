@@ -37,9 +37,7 @@ module.exports = {
     messageWords.some(item => {
       if (bttvCodes.includes(item)) {
         let index = bttvCodes.indexOf(item);
-
         let bttvId = bttvObject[index].id;
-
         let imageSrc = `<img src="https://cdn.betterttv.net/emote/${bttvId}/1x" alt="${item}">`;
 
         messageWords[messageWords.indexOf(item)] = imageSrc;

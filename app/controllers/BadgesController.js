@@ -72,7 +72,10 @@ const getBTTVEmotes = async channelID => {
         try {
           body = JSON.parse(body);
 
-          bttvEmotes = body['sharedEmotes'];
+          let channelEmotes = body['channelEmotes'];
+          let sharedEmotes = body['sharedEmotes'];
+
+          bttvEmotes = channelEmotes.concat(sharedEmotes);
         } catch (error) {
           console.log(`Error on const getBTTVEmotes: ${error.message}`);
         };
