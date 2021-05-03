@@ -14,14 +14,36 @@ Welcome to this Chat Visualizer.
 [Link to cellbit on twitch](https://www.twitch.tv/cellbit)<br>
 [Link to gaules on twitch](https://www.twitch.tv/gaules)<br>
 
+# Recommended Setup (STREAMER)
+
+* Get to [this link](https://twitchview.herokuapp.com/);
+* Input your twitch channel and press OK;
+* Click on the gear icon and setup your chat style;
+* Once you finish, click on the "Transparent" checkbox and a modal will open;
+* Click on "Click here to copy" to copy the transparent chat link;
+* Create a new Browser source on your OBS;
+* Paste the link on the URL field and adjust the size (I do recommend you take 400 for width);
+
+# Recommended Setup (STREAMER - pt_BR)
+
+* Acesse [esse link](https://twitchview.herokuapp.com/);
+* Insira o nome do seu canal no campo de texto e aperte OK;
+* Clique no ícone da engrenagem e configure o estilo do seu chat;
+* Assim que finalizar, click na caixa "Transparent" e um modal irá abrir;
+* Clique em "Click here to copy" para copiar o link para o seu chat transparente;
+* Crie uma nova fonte de navegador no seu OBS;
+* Cole o link no campo URL e ajuste o tamanho (Eu recomendo deixar 400 para a largura);
+
 # Recommended Setup (DEVS)
 
 * Clone this repository or download the zip file;
-* You will need node.js to run this application ([You can get it here](https://nodejs.org/en/));
-* Install yarn (npm install -g yarn);
+* mv .env.example .env to copy the env example to a real .env;
+* Go to .env file and insert your app client_id;
+* You will need node.js and npm to run this application ([You can get it here](https://nodejs.org/en/));
+* Once you get node and npm, install yarn (npm install -g yarn);
 * Install all the dependencies it needs with yarn (yarn install);
 * Start the app with yarn (yarn start);
-* Open your browser and enter in the following addres: [localhost:3000](http://127.0.0.1:3000) (You can change the port on .env file);
+* Open your browser and enter in the following addres: [localhost:3000](http://127.0.0.1:3000) (You can also change the port on .env file);
 * Enjoy your twitch chat visualizer! :)
 
 # Features
