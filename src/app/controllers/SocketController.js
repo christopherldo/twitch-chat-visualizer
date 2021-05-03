@@ -1,4 +1,4 @@
-const BadgesController = require('./BadgesController');
+const RequestsController = require('./RequestsController');
 const uuid = require('uuid');
 
 let connectedChannels = [];
@@ -16,7 +16,7 @@ const sendTransparentLink = (object, socket) => {
 };
 
 const getChannelBadges = (socket) => {
-  BadgesController.getChannelBadges(socket);
+  RequestsController.requestChannelAssets(socket);
 };
 
 module.exports = {

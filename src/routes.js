@@ -1,8 +1,9 @@
 const express = require('express');
 const router = express.Router();
+
 const {
   ChatController
-} = require('../app/controllers');
+} = require('./app/controllers');
 
 router.get('/', ChatController.index);
 router.post('/', ChatController.setUsername);

@@ -203,20 +203,16 @@ function divRemoverByUser(username) {
 
 socket.on('ban', function (username) {
   divRemoverByUser(username);
-  console.log(`Banido: ${username}`);
 });
 
 socket.on('timeout', function (username) {
   divRemoverByUser(username);
-  console.log(`Timeout: ${username}`);
 });
 
 socket.on('messagedeleted', function (username) {
   divRemoverByUser(username);
-  console.log(`Mensagens apagadas: ${username}`);
 });
 
 socket.on('clearchat', function () {
   document.getElementById("chat").innerHTML = null;
-  console.log(`Chat limpo`);
 });
