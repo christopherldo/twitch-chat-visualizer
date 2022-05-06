@@ -38,7 +38,7 @@ Welcome to this Chat Visualizer.
 
 * Clone this repository or download the zip file;
 * mv .env.example .env to copy the env example to a real .env;
-* Go to .env file and insert your app client_id;
+* Go to .env file and insert your app client_id and access_token;
 * You will need node.js and npm to run this application ([You can get it here](https://nodejs.org/en/));
 * Once you get node and npm, install yarn (npm install -g yarn);
 * Install all the dependencies it needs with yarn (yarn install);

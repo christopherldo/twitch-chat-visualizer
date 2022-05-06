@@ -8,7 +8,7 @@ const axiosGET = async (url, body = {}) => {
     url: `${url}?${qs.stringify(body)}`,
     headers: {
       'Client-ID': process.env.CLIENT_ID,
-      Accept: 'application/vnd.twitchtv.v5+json',
+      'Authorization': `Bearer ${process.env.ACCESS_TOKEN}`,
     },
   });
 };
@@ -17,10 +17,11 @@ const getChannelID = async channel => {
   let res;
 
   try {
-    const body = await axiosGET('https://api.twitch.tv/kraken/users', {
+    const body = await axiosGET('https://api.twitch.tv/helix/users', {
       login: channel
     });
-    res = body.data['users'][0]['_id'];
+    
+    res = body.data.data[0].id
   } catch (error) {
     console.log(`Error on const getChannelID: ${error.message}`);
   };
@@ -109,6 +110,7 @@ const getFFZGlobalEmotes = async channelID => {
 module.exports = {
   requestChannelAssets: async socket => {
     const channel = socket.channel;
+    console.log('Startou aqui');
     const channelID = await getChannelID(channel).then(res => res);
 
     if (channelID) {
