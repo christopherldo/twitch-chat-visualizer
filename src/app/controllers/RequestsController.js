@@ -110,7 +110,7 @@ const getFFZGlobalEmotes = async channelID => {
 module.exports = {
   requestChannelAssets: async socket => {
     const channel = socket.channel;
-    console.log('Startou aqui');
+    
     const channelID = await getChannelID(channel).then(res => res);
 
     if (channelID) {
