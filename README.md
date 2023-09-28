@@ -1,13 +1,14 @@
 # Chat Visualizer
 
 Hi, this is the Chat Visualizer for you twitch stream that I've created.<br>
-I started studying Javascript and I decided to take this project as my first one.<br>
+I started studying JavaScript and I decided to take this project as my first one.<br>
 Feel free to comment and give your opinions.<br>
 Take a read at this document to know how to use it.<br>
 <br>
 Welcome to this Chat Visualizer.
 
 # Screenshot
+
 ![twitch-chat-visualizer-screenshot](https://github.com/christopherldo/twitch-chat-visualizer/blob/assets/Screenshot.png?raw=true)
 
 [Link to meduardinha on twitch](https://www.twitch.tv/meduardinha)<br>
@@ -16,7 +17,7 @@ Welcome to this Chat Visualizer.
 
 # Recommended Setup (STREAMER)
 
-* Get to [this link](https://twitchview.herokuapp.com/);
+<!-- * Get to [this link](https://twitchview.herokuapp.com/); -->
 * Input your twitch channel and press OK;
 * Click on the gear icon and setup your chat style;
 * Once you finish, click on the "Transparent" checkbox and a modal will open;
@@ -26,7 +27,7 @@ Welcome to this Chat Visualizer.
 
 # Recommended Setup (STREAMER - pt_BR)
 
-* Acesse [esse link](https://twitchview.herokuapp.com/);
+<!-- * Acesse [esse link](https://twitchview.herokuapp.com/); -->
 * Insira o nome do seu canal no campo de texto e aperte OK;
 * Clique no ícone da engrenagem e configure o estilo do seu chat;
 * Assim que finalizar, click na caixa "Transparent" e um modal irá abrir;
@@ -37,11 +38,11 @@ Welcome to this Chat Visualizer.
 # Recommended Setup (DEVS)
 
 * Clone this repository or download the zip file;
-* mv .env.example .env to copy the env example to a real .env;
-* Go to .env file and insert your app client_id and access_token;
-* You will need node.js and npm to run this application ([You can get it here](https://nodejs.org/en/));
-* Once you get node and npm, install yarn (npm install -g yarn);
-* Install all the dependencies it needs with yarn (yarn install);
+* cp .env.example .env to copy the env example to a real .env;
+* Go to .env file and insert your app client_id and client_secret ([Learn more here](https://dev.twitch.tv/docs/authentication/register-app/));
+* You will need a JavaScript runtime and npm to run this application ([You can get it here](https://nodejs.org/en/));
+* Once you get the JavaScript runtime and npm, install yarn (npm install -g yarn);
+* Install all the dependencies it needs with yarn (yarn);
 * Start the app with yarn (yarn start);
 * Open your browser and enter in the following addres: [localhost:3000](http://127.0.0.1:3000) (You can also change the port on .env file);
 * Enjoy your twitch chat visualizer! :)
@@ -54,7 +55,8 @@ Welcome to this Chat Visualizer.
 * In real-time Twitch emotes.
 * In real-time BTTV emotes;
 * In real-time FFZ emotes;
-* In real-time mod deletion events.
+* In real-time mod deletion events;
+* NOW SUPPORTING TWITCH ANIMATED EMOTES.
 
 # Support
 

@@ -8,7 +8,7 @@ const axiosGET = async (url, body = {}) => {
     url: `${url}?${qs.stringify(body)}`,
     headers: {
       'Client-ID': process.env.CLIENT_ID,
-      'Authorization': `Bearer ${process.env.ACCESS_TOKEN}`,
+      'Authorization': `Bearer ${global.access_token}`,
     },
   });
 };
@@ -33,7 +33,7 @@ const getGlobalBadges = async () => {
   let res;
 
   try {
-    const body = await axiosGET('https://badges.twitch.tv/v1/badges/global/display');
+    const body = await axiosGET('https://api.twitch.tv/helix/chat/badges/global');
     res = body.data;
   } catch (error) {
     console.log(`Error on const getGlobalBadges: ${error.message}`);
@@ -46,7 +46,10 @@ const getChannelBadges = async channelID => {
   let res;
 
   try {
-    const body = await axiosGET(`https://badges.twitch.tv/v1/badges/channels/${channelID}/display`);
+    const body = await axiosGET('https://api.twitch.tv/helix/chat/badges', {
+      'broadcaster_id': channelID,
+    });
+
     res = body.data;
   } catch (error) {
     console.log(`Error on const getChannelBadges: ${error.message}`);
@@ -150,4 +153,31 @@ module.exports = {
       console.log('Not found channel');
     };
   },
+  twitchLogin: async (id, secret) => {
+    let res;
+
+    const data = {
+      'client_id': id,
+      'client_secret': secret,
+      'grant_type': 'client_credentials'
+    };
+
+    try {
+      const body = await axios({
+        method: 'POST',
+        headers: { 'content-type': 'application/x-www-form-urlencoded' },
+        data: qs.stringify(data),
+        url: `https://id.twitch.tv/oauth2/token`,
+      });
+      
+      res = {
+        access_token: body.data['access_token'],
+        expires_in: body.data['expires_in'],
+      };
+    } catch (error) {
+      console.log(`Error on const twitchLogin: ${error.message}`);
+    };
+
+    return res;
+  }
 };

@@ -7,6 +7,8 @@ const routes = require('./routes');
 const mustacheExpress = require('mustache-express');
 const helpers = require('./helpers');
 
+const ClientMiddleware = require('./app/middlewares/ClientMiddleware');
+
 const server = express();
 
 server.use(cors());
@@ -27,6 +29,10 @@ server.use((req, res, next) => {
 
   next();
 });
+
+const newClientMiddleware = new ClientMiddleware();
+
+server.use(newClientMiddleware.clientMiddleware);
 
 server.use('/', routes);
 

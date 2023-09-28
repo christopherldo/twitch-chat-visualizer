@@ -19,7 +19,9 @@ module.exports = {
             parseInt(emotes[i][1][j][0]), parseInt(emotes[i][1][j][1]) + 1
           );
 
-          links.push([codigo, `<img src="https://static-cdn.jtvnw.net/emoticons/v1/${emotes[i][0]}/1.0">`]);
+          let pngOrGif = 'png';
+
+          links.push([codigo, `<img src="https://static-cdn.jtvnw.net/emoticons/v2/${emotes[i][0]}/default/light/1.0">`]);
         };
       };
 

@@ -38,17 +38,46 @@ module.exports = {
     let bttvObject = bttv;
     let ffzObject = ffz;
 
+    let globalBadgesSets = [];
+    let channelBadgesSets = [];
+
+    let globalBadgesCodes = {};
+    let channelBadgesCodes = {};
     let bttvCodes = [];
     let ffzCodes = [];
 
+    for (let i in globalBadges?.data) {
+      globalBadgesSets.push(globalBadges?.data[i]?.set_id);
+    }
+    
+    for (let i in channelBadges?.data) {
+      channelBadgesSets.push(channelBadges?.data[i]?.set_id);
+    }
+
+    for (let i in globalBadgesSets) {
+      globalBadgesCodes[globalBadgesSets[i]] = {};
+
+      for (let x in globalBadges?.data[i]?.versions) {
+        globalBadgesCodes[globalBadgesSets[i]][globalBadges?.data[i]?.versions[x]?.id] = globalBadges?.data[i]?.versions[x].image_url_1x; 
+      }
+    }
+
+    for (let i in channelBadgesSets) {
+      channelBadgesCodes[channelBadgesSets[i]] = {};
+
+      for (let x in channelBadges?.data[i]?.versions) {
+        channelBadgesCodes[channelBadgesSets[i]][channelBadges?.data[i]?.versions[x]?.id] = channelBadges?.data[i]?.versions[x].image_url_1x; 
+      }
+    }
+    
     for (let i in bttvObject) {
       bttvCodes.push(bttvObject[i].code);
     };
-
+    
     for (let i in ffzObject) {
       ffzCodes.push(ffzObject[i].name);
     };
-
+    
     const client = new tmi.Client({
       connection: {
         secure: true,
@@ -73,12 +102,10 @@ module.exports = {
         for (let i = 0; i < Object.keys(badges).length; i++) {
           badges[i] = badges[i].split('/');
 
-          if (badges[i][0] in channelBadges['badge_sets']) {
-            badgesSource[i] =
-              channelBadges['badge_sets'][badges[i][0]]['versions'][badges[i][1]]['image_url_1x'];
-          } else if (badges[i][0] in globalBadges['badge_sets']) {
-            badgesSource[i] =
-              globalBadges['badge_sets'][badges[i][0]]['versions'][badges[i][1]]['image_url_1x'];
+          if (channelBadgesSets.includes(badges[i][0])) {
+            badgesSource[i] = channelBadgesCodes[badges[i][0]][badges[i][1]]
+          } else if (globalBadgesSets.includes(badges[i][0])) {
+            badgesSource[i] = globalBadgesCodes[badges[i][0]][badges[i][1]]
           };
         };
       };
