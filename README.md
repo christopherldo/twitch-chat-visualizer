@@ -17,7 +17,7 @@ Welcome to this Chat Visualizer.
 
 # Recommended Setup (STREAMER)
 
-* Get to [this link](https://twitch.chrisldo.com/);
+* Get to [this link](https://twitch.chrisldo.com/); (We're offline because of server costs)
 * Input your twitch channel and press OK;
 * Click on the gear icon and setup your chat style;
 * Once you finish, click on the "Transparent" checkbox and a modal will open;
@@ -27,7 +27,7 @@ Welcome to this Chat Visualizer.
 
 # Recommended Setup (STREAMER - pt_BR)
 
-* Acesse [esse link](https://twitch.chrisldo.com/);
+* Acesse [esse link](https://twitch.chrisldo.com/); (Estamos offline por conta de custos com servidor)
 * Insira o nome do seu canal no campo de texto e aperte OK;
 * Clique no ícone da engrenagem e configure o estilo do seu chat;
 * Assim que finalizar, click na caixa "Transparent" e um modal irá abrir;
