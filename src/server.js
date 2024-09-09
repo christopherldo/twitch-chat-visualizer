@@ -1,22 +1,25 @@
-require('dotenv').config();
-const http = require('http');
-const sockets = require('./sockets');
-const ClientMiddleware = require('./app/middlewares/ClientMiddleware');
+require("dotenv").config();
 
-const app = require('./app');
+const express = require("express");
+const { configureMiddlewares } = require("./middlewares");
+const { configureViewEngine } = require("./viewEngine");
+const { startSocketServer } = require("./sockets");
+const routes = require("./routes");
 
-const newClientMiddleware = new ClientMiddleware();
+const server = express();
 
-app.use(newClientMiddleware.clientMiddleware);
+configureMiddlewares(server);
+configureViewEngine(server);
 
-app.set('port', process.env.PORT || 3000);
+server.use("/", routes);
 
-const server = http.createServer(app);
+const httpServer = require("http").createServer(server);
 
-sockets.startSocketServer(server);
+startSocketServer(httpServer);
 
-server.listen(app.get('port'), () => {
-  console.log(`Servidor rodando na porta: ${server.address().port}`)
+const PORT = process.env.PORT || 3000;
+httpServer.listen(PORT, () => {
+  console.log(`Servidor rodando na porta: ${httpServer.address().port}`);
 });
 
-module.exports = newClientMiddleware;
+module.exports = server;
