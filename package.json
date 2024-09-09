@@ -12,7 +12,6 @@
     "uuid": "^8.3.2"
   },
   "scripts": {
-    "start": "node src/server.js",
-    "startdev": "nodemon src/server.js"
+    "start": "node src/server.js"
   }
 }
