@@ -8,6 +8,7 @@ function App() {
       <Routes>
         <Route path="/" element={<Navigate to="/transparent" replace />} />
         <Route path="/transparent" element={<SettingsPage />} />
+        <Route path="/:channel" element={<Navigate to="/:channel/transparent" replace />} />
         <Route path="/:channel/transparent" element={<OverlayPage />} />
       </Routes>
     </BrowserRouter>

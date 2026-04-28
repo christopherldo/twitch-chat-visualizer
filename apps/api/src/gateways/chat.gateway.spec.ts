@@ -42,7 +42,6 @@ describe('ChatGateway', () => {
   it('should join channel, register socket in room and call services', async () => {
     await gateway.handleJoinChannel(mockClient, 'testchannel');
 
-    expect(mockClient.data.channel).toBe('testchannel');
     expect(mockClient.join).toHaveBeenCalledWith('testchannel');
     expect(mockTwitchService.joinChannel).toHaveBeenCalledWith('testchannel');
     expect(mockEmoteCacheService.getChannelAssets).toHaveBeenCalledWith('testchannel');
@@ -50,11 +49,13 @@ describe('ChatGateway', () => {
   });
 
   it('should leave channel on disconnect', () => {
-    mockClient.data.channel = 'testchannel';
+    // Simula a adição ao Map no join
+    gateway['socketChannelMap'].set('socket-123', 'testchannel');
     
     gateway.handleDisconnect(mockClient);
 
     expect(mockClient.leave).toHaveBeenCalledWith('testchannel');
     expect(mockTwitchService.leaveChannel).toHaveBeenCalledWith('testchannel');
+    expect(gateway['socketChannelMap'].has('socket-123')).toBe(false);
   });
 });

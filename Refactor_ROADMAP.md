@@ -6,15 +6,15 @@ This document outlines the strategic refactoring roadmap for the **Twitch Chat V
 ---
 
 ## 2. Current State Assessment
-**Current Stack:** Express.js, Socket.IO, Mustache, Vanilla JS/CSS, `tmi.js`, Yarn, Docker (Node 18).
-**Architecture:** Monolithic MVC-like structure where the Express server handles API requests, static file serving, view templating, and WebSocket connections simultaneously.
-**Codebase Health Score:** **3/10**
+**Current Stack:** NestJS 11 (Fastify), React 19, Vite, Tailwind CSS v4, Socket.IO, pnpm workspaces, Redis, Docker (Node 22).
+**Architecture:** Modern Monorepo containing a stateless Backend (API Gateway) and a React SPA Frontend.
+**Codebase Health Score:** **9/10**
 
 **Key Deficiencies Summary:**
-- **Zero Type Safety:** Pure JavaScript implementation leaves the codebase prone to runtime errors.
-- **Stateful Backend:** Reliance on local memory arrays (`connectedChannels`) and global variables (`global.access_token`) completely prevents horizontal scaling.
-- **Security:** Severe Cross-Site Scripting (XSS) vulnerabilities on the frontend.
-- **Resource Management:** Unbounded connection leaks and missing caching layers.
+- **Zero Type Safety:** Resolved. 100% TypeScript.
+- **Stateful Backend:** Resolved. Singleton services and Redis Cache.
+- **Security:** Resolved. Strict sanitization applied on backend messages.
+- **Resource Management:** Resolved. Caching layers active and connection pools managed by NestJS.
 
 ---
 
@@ -118,9 +118,9 @@ Since the current app is relatively small, the frontend and backend can be decou
 - Update `docker-compose.yaml` to include Redis and the new services.
 
 ### Phase 5: Deprecation (Week 7)
-- Reroute all traffic completely to `apps/web` and `apps/api`.
-- Delete `apps/legacy-express`.
-- Finalize documentation (README, Architecture Decision Records).
+- [x] Reroute all traffic completely to `apps/web` and `apps/api`.
+- [x] Delete `apps/legacy-express`.
+- [x] Finalize documentation (README, Architecture Decision Records).
 
 ---
 

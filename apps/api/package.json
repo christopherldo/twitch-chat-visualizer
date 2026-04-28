@@ -12,7 +12,6 @@
   },
   "dependencies": {
     "@fastify/cors": "^11.2.0",
-    "@fastify/http-proxy": "^11.4.4",
     "@nestjs/cache-manager": "^3.1.2",
     "@nestjs/common": "^11.0.0",
     "@nestjs/config": "^4.0.4",
@@ -42,10 +41,10 @@
     "@types/node": "^22.0.0",
     "@types/qs": "^6.15.0",
     "@types/tmi.js": "^1.8.6",
-    "@vitest/ui": "^4.1.5",
+    "@vitest/ui": "^1.6.1",
     "socket.io-client": "^4.8.3",
     "typescript": "^5.4.0",
     "unplugin-swc": "^1.5.9",
-    "vitest": "^4.1.5"
+    "vitest": "^1.6.1"
   }
 }
