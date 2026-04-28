@@ -2,12 +2,16 @@ import { NestFactory } from '@nestjs/core';
 import { FastifyAdapter, NestFastifyApplication } from '@nestjs/platform-fastify';
 import { AppModule } from './app.module';
 import fastifyHttpProxy from '@fastify/http-proxy';
+import { Logger } from 'nestjs-pino';
 
 async function bootstrap() {
   const app = await NestFactory.create<NestFastifyApplication>(
     AppModule,
-    new FastifyAdapter()
+    new FastifyAdapter(),
+    { bufferLogs: true }
   );
+
+  app.useLogger(app.get(Logger));
 
   const port = process.env.PORT || 3000;
   const legacyPort = process.env.LEGACY_PORT || 3001;
@@ -32,8 +36,9 @@ async function bootstrap() {
 
   await app.listen(port, '0.0.0.0');
   
-  console.log(`🚀 NestJS API Gateway is running on: http://localhost:${port}`);
-  console.log(`➡️  Proxying unknown routes to legacy app on port: ${legacyPort}`);
+  const logger = app.get(Logger);
+  logger.log(`🚀 NestJS API Gateway is running on: http://localhost:${port}`);
+  logger.log(`➡️  Proxying unknown routes to legacy app on port: ${legacyPort}`);
 }
 
 bootstrap();
