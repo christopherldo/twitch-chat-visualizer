@@ -1,3 +1,9 @@
+/**
+ * Copyright (c) 2026 Christopher Leonardo de Oliveira. Todos os direitos reservados.
+ * Licenciado sob a PolyForm Noncommercial License 1.0.0.
+ * O uso comercial deste software é estritamente proibido.
+ */
+
 const socket = io();
 
 socket.on("message", function (messageObject) {
