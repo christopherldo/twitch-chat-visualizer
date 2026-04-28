@@ -28,7 +28,7 @@ This document outlines the strategic refactoring roadmap for the **Twitch Chat V
 | `src/app/middlewares/ClientMiddleware.js` | **High** | **Scalability / Logic Bug** | **Global State Mutation:** Token logic mutates `global.access_token` on HTTP requests. If the token expires, persistent WebSockets relying on this token will fail because they bypass HTTP middleware. | Store the App Access Token in Redis with a background worker (cron) responsible for refreshing it before expiration. Remove `global` usage. |
 | `package.json`, `.eslintrc` (missing) | **Medium** | **Code Quality / Tech Debt** | **Outdated Tech:** CommonJS, `moment.js` (deprecated), Mustache templates, no TypeScript, no linting, huge functions. | Migrate to TypeScript, replace `moment` with `date-fns` or native `Intl`, and enforce strict ESLint/Prettier rules in a shared config package. |
 | Codebase-wide | **Medium** | **Testing Gaps** | **Zero Tests:** Complete lack of unit, integration, and E2E tests. | Implement `Jest`/`Vitest` for backend services and `Playwright` for frontend E2E testing. |
-| `Dockerfile`, `docker-compose.yaml` | **Low** | **CI/CD & DevOps** | **Basic DevOps:** Missing CI/CD pipelines, using older Node 18, single-stage Dockerfile. | Implement GitHub Actions for CI/CD, use multi-stage Docker builds with Node 22 LTS, and provision via Terraform/Helm. |
+| `Dockerfile`, `docker-compose.yaml` | **Low** | **CI/CD & DevOps** | **Basic DevOps:** Missing CI/CD pipelines, using older Node 18, single-stage Dockerfile. | Implement GitHub Actions for CI/CD, use multi-stage Docker builds com Node 22 LTS, e provisionamento de infraestrutura as code usando **Pulumi** na AWS (Free Tier). |
 
 ---
 
@@ -58,6 +58,7 @@ graph TD
 
     Web <-->|WebSockets / tRPC| API
     API <-->|Fetch Assets| Redis
+    API <-->|Query| Database[(PostgreSQL)]
     Redis <-->|Cache Miss| TwitchAPI
     API <-->|Single Shared Connection per Channel| TwitchChat
     
@@ -66,9 +67,10 @@ graph TD
     Web -.-> UI
 ```
 
-### Stack Details:
-- **Backend:** NestJS 11 (Fastify Adapter), Socket.io (or native WebSockets), Redis (caching/pub-sub).
-- **Frontend:** React 19, Vite, TanStack Router, TailwindCSS, Shadcn UI.
+### Stack Details (2026 Standards):
+- **Backend:** NestJS 11 (Fastify Adapter), PostgreSQL (Neon/RDS Free Tier), Drizzle ORM, Zod, Redis (ElastiCache Free Tier), BullMQ (Background Jobs), Socket.io (or native WebSockets).
+- **Frontend:** React 19, Vite, TanStack Router, TanStack Query, Zustand (State Management), React Hook Form + Zod, TailwindCSS v4, Radix UI Primitives / Shadcn UI.
+- **Infrastructure (AWS via Pulumi):** AWS EC2 (t4g.micro / Free Tier) or AWS App Runner, AWS RDS (PostgreSQL Free Tier), AWS ElastiCache (Redis Free Tier).
 - **Tooling:** pnpm workspaces, TypeScript 5.5+, Vitest, GitHub Actions, Docker (multi-stage).
 
 ---
@@ -143,12 +145,15 @@ Since the current app is relatively small, the frontend and backend can be decou
 ---
 
 ## 9. Appendices
-- **Recommended Tech Radar:**
-  - Runtime: Node.js 22 LTS
-  - Package Manager: `pnpm` v9+
-  - UI: `shadcn/ui`, `lucide-react`, `tailwind-merge`
-  - State/Data: `TanStack Query v5`, `zustand` (if needed)
-  - Validation: `Zod`
+- **Recommended Tech Radar (2026):**
+  - **Runtime:** Node.js 22 LTS
+  - **Package Manager:** `pnpm` v9+
+  - **Infrastructure as Code:** `Pulumi` (TypeScript) targeting AWS Free Tier
+  - **Frontend UI:** `TailwindCSS v4`, `Radix UI`, `shadcn/ui`, `lucide-react`
+  - **Frontend State & Data:** `TanStack Query`, `TanStack Router`, `Zustand` (Global State)
+  - **Frontend Forms:** `React Hook Form` + `Zod` (Validation)
+  - **Backend DB & ORM:** `PostgreSQL`, `Drizzle ORM`
+  - **Backend Queues:** `BullMQ` (com Redis)
 - **Reference Docs:**
   - [NestJS Fastify Adapter](https://docs.nestjs.com/techniques/performance)
   - [Twitch API Documentation](https://dev.twitch.tv/docs/api/)
