@@ -24,6 +24,7 @@ async function bootstrap() {
   // Redireciona tudo o que o NestJS NÃO conhece para o backend legado (Strangler Fig)
   await app.register(fastifyHttpProxy as any, {
     upstream: `http://localhost:${legacyPort}`,
+    httpMethods: ['DELETE', 'GET', 'HEAD', 'PATCH', 'POST', 'PUT'],
     replyOptions: {
       rewriteRequestHeaders: (_request: any, headers: any) => headers,
     }
