@@ -1,4 +1,5 @@
 import { Controller, Get, Inject } from '@nestjs/common';
+import { ApiTags, ApiOperation } from '@nestjs/swagger';
 import { HealthCheckService, MemoryHealthIndicator, HealthCheck, HealthIndicator, HealthIndicatorResult, HealthCheckError } from '@nestjs/terminus';
 import { CACHE_MANAGER } from '@nestjs/cache-manager';
 import { Cache } from 'cache-manager';
@@ -26,6 +27,7 @@ class RedisHealthIndicator extends HealthIndicator {
   }
 }
 
+@ApiTags('Health')
 @Controller('health')
 export class HealthController {
   constructor(
@@ -35,6 +37,7 @@ export class HealthController {
   ) {}
 
   @Get()
+  @ApiOperation({ summary: 'Verificar saúde da API (Redis e Memória)' })
   @HealthCheck()
   check() {
     const redisIndicator = new RedisHealthIndicator(this.cacheManager);

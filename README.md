@@ -4,211 +4,120 @@
 ![GitHub language count](https://img.shields.io/github/languages/count/christopherldo/twitch-chat-visualizer?style=for-the-badge)
 ![GitHub forks](https://img.shields.io/github/forks/christopherldo/twitch-chat-visualizer?style=for-the-badge)
 
-> A professional, real-time Twitch chat overlay application designed for streamers and content creators. Built with Node.js and Socket.IO for seamless integration with OBS Studio and other broadcasting software.
+> Um overlay de chat em tempo real moderno, ultra-otimizado e seguro, desenhado para streamers e criadores de conteúdo na Twitch. Integração perfeita com o OBS Studio. Totalmente refatorado para os padrões corporativos de 2026!
 
-## 🌟 Features
+## 🌟 Sobre o Projeto
 
-### Core Functionality
-- **Real-time Chat Display**: Live Twitch chat messages with zero delay
-- **Transparent Overlay Mode**: Perfect for OBS browser sources with customizable transparency
-- **Full Emote Support**: Native Twitch emotes, BetterTTV (BTTV), and FrankerFaceZ (FFZ) integration
-- **Moderation Events**: Real-time display of message deletions and moderation actions
-- **Custom Styling**: Comprehensive customization options for colors, fonts, and layout
+O Twitch Chat Visualizer v2 é uma aplicação monorepo construída para alta escalabilidade e segurança. Ele recebe e converte as mensagens e os eventos de moderação (bans, timeouts, apagamentos) diretamente da IRC da Twitch para um overlay limpo e personalizável via navegador. Suporta **emotes nativos, BetterTTV e FrankerFaceZ**, renderizados através de uma engine reativa em React 19.
 
-### Technical Features
-- **WebSocket Communication**: Real-time bidirectional communication using Socket.IO
-- **Twitch API Integration**: Official Twitch API support via TMI.js
-- **Responsive Design**: Works across different screen sizes and resolutions
-- **Docker Support**: Containerized deployment for easy hosting
-- **Environment Configuration**: Secure credential management with environment variables
+## 🚀 Tecnologias e Arquitetura
 
-## 🛠️ Technology Stack
+Este projeto adota um **Monorepo (pnpm workspaces)** separando as responsabilidades:
 
-- **Backend**: Node.js, Express.js
-- **Real-time Communication**: Socket.IO
-- **Twitch Integration**: TMI.js (Twitch Messaging Interface)
-- **Template Engine**: Mustache.js
-- **Frontend**: Vanilla JavaScript, HTML5, CSS3
-- **Containerization**: Docker & Docker Compose
-- **Package Management**: Yarn
+![NestJS](https://img.shields.io/badge/NestJS-E0234E?style=for-the-badge&logo=nestjs&logoColor=white)
+![Fastify](https://img.shields.io/badge/fastify-000000?style=for-the-badge&logo=fastify&logoColor=white)
+![React](https://img.shields.io/badge/React-20232A?style=for-the-badge&logo=react&logoColor=61DAFB)
+![Vite](https://img.shields.io/badge/Vite-B73BFE?style=for-the-badge&logo=vite&logoColor=FFD62E)
+![Tailwind CSS](https://img.shields.io/badge/Tailwind_CSS-38B2AC?style=for-the-badge&logo=tailwind-css&logoColor=white)
+![Redis](https://img.shields.io/badge/redis-%23DD0031.svg?style=for-the-badge&logo=redis&logoColor=white)
+![Docker](https://img.shields.io/badge/Docker-2CA5E0?style=for-the-badge&logo=docker&logoColor=white)
 
-## 📋 Prerequisites
+```text
+twitch-chat-visualizer/
+├── apps/
+│   ├── api/                 # NestJS API Gateway + WebSockets (Fastify)
+│   └── web/                 # React 19 SPA (Vite + Tailwind CSS v4)
+├── packages/
+│   ├── config-ts/           # Base tsconfig para o monorepo
+│   └── shared/              # Tipagens e schemas Zod compartilhados
+└── docker-compose.yaml      # Orquestração local (Redis, API, Nginx/Web)
+```
 
-- Node.js 18+ (Alpine Linux compatible)
-- Yarn package manager
-- Twitch Developer Application (for API credentials)
-- Docker (optional, for containerized deployment)
+## 📋 Pré-requisitos
 
-## 🚀 Quick Start
+Para rodar este projeto localmente, você precisará de:
+- **Node.js** 22+ (LTS)
+- **pnpm** (gerenciador de pacotes v9+)
+- **Docker** e **Docker Compose** (para Redis e deploy de produção)
+- Uma **Conta de Desenvolvedor da Twitch** (Para obter o Client ID e Secret)
 
-### 1. Clone the Repository
+## 🛠️ Configuração e Instalação
+
+1. **Clone o repositório:**
+   ```bash
+   git clone https://github.com/christopherldo/twitch-chat-visualizer.git
+   cd twitch-chat-visualizer
+   ```
+
+2. **Instale as dependências da monorepo:**
+   ```bash
+   pnpm install
+   ```
+
+3. **Configure as Variáveis de Ambiente:**
+   Copie o arquivo de exemplo e edite com suas credenciais da Twitch (obtidas em [dev.twitch.tv](https://dev.twitch.tv/console)):
+   ```bash
+   cp .env.example .env
+   ```
+   *Exemplo do `.env`:*
+   ```env
+   TWITCH_CLIENT_ID=seu_client_id_aqui
+   TWITCH_CLIENT_SECRET=seu_client_secret_aqui
+   REDIS_URL=redis://localhost:6379
+   PORT=3000
+   ```
+
+## 💻 Desenvolvimento Local
+
+Para rodar em ambiente de desenvolvimento (Hot-Reload ativo para Backend e Frontend):
+
+1. **Suba o Redis localmente** (requer Docker):
+   ```bash
+   pnpm run services:up
+   ```
+2. **Inicie o monorepo:**
+   ```bash
+   pnpm dev
+   ```
+   - **Frontend (Painel e Overlay):** `http://localhost:5173`
+   - **Backend API:** `http://localhost:3000`
+   - **Swagger Docs:** `http://localhost:3000/api/docs`
+
+### Comandos Úteis
+- `pnpm build` — Compila todos os workspaces para a pasta `dist`.
+- `pnpm test` — Roda as suítes de teste (Vitest).
+- `pnpm lint` — Executa análise estática (ESLint) em todo o código.
+
+## 🐳 Produção com Docker
+
+Para ambientes de produção, o projeto dispõe de Dockerfiles multi-stage otimizados. O Frontend é servido por um Nginx superleve que também atua como proxy reverso para a API.
+
+Suba toda a infraestrutura com um único comando:
 ```bash
-git clone https://github.com/christopherldo/twitch-chat-visualizer.git
-cd twitch-chat-visualizer
+docker compose up --build -d
 ```
+A aplicação estará disponível em **`http://localhost`** (porta 80).
 
-### 2. Install Dependencies
+**Health Check:**
+Você pode verificar a saúde do serviço, memória e conexão com Redis em:
 ```bash
-yarn install
+curl http://localhost/api/health
 ```
 
-### 3. Environment Setup
-```bash
-cp .env.example .env
-```
+## 🤝 Contribuição e Guias
 
-Edit the `.env` file with your Twitch application credentials:
-```env
-PORT=3000
-CLIENT_ID=your_twitch_client_id
-CLIENT_SECRET=your_twitch_client_secret
-```
+- **Quer contribuir?** Veja nosso [Guia de Onboarding](docs/ONBOARDING.md) para entender os padrões de código, TypeScript Strict e fluxo de PRs.
+- **Documentação da API:** Os endpoints REST e detalhes do WebSocket estão documentados em [docs/API.md](docs/API.md) e interativamente via Swagger local.
 
-**Getting Twitch Credentials:**
-1. Visit the [Twitch Developer Console](https://dev.twitch.tv/console)
-2. Create a new application
-3. Set OAuth Redirect URL to `http://localhost:3000`
-4. Copy the Client ID and Client Secret to your `.env` file
+### 🛡️ Relatório de Vulnerabilidades
+A segurança é prioridade (temos zero tolerância a XSS). Se encontrar uma vulnerabilidade, por favor, **NÃO** abra uma issue pública. Entre em contato diretamente com o mantenedor de forma privada para coordenarmos um patch seguro.
 
-### 4. Start the Application
-```bash
-yarn start
-```
+## 📄 Licença
 
-The application will be available at `http://localhost:3000`
+Este projeto adota a licença **PolyForm Noncommercial License 1.0.0**. 
+Você é livre para modificar, estudar e utilizar pessoalmente em suas transmissões, mas **a revenda ou o uso comercial/SaaS deste código é estritamente proibido.** 
 
-## 🐳 Docker Deployment
-
-### Using Docker Compose (Recommended)
-```bash
-docker-compose up -d
-```
-
-### Using Docker Directly
-```bash
-docker build -t twitch-chat-visualizer .
-docker run -p 3000:3000 --env-file .env twitch-chat-visualizer
-```
-
-## 📺 Usage Guide
-
-### For Streamers
-
-1. **Access the Application**: Navigate to your hosted instance or `http://localhost:3000`
-2. **Enter Channel Name**: Input your Twitch channel name and click "OK"
-3. **Customize Appearance**: Use the settings gear (⚙️) to configure:
-   - Username colors and backgrounds
-   - Message colors and backgrounds
-   - Font sizes
-   - Transparency settings
-4. **Generate Overlay URL**: Enable "Transparent" mode to get the overlay URL
-5. **Add to OBS**: 
-   - Create a new "Browser Source" in OBS Studio
-   - Paste the transparent overlay URL
-   - Set width to 400px (recommended)
-   - Adjust height as needed
-
-### For Developers
-
-#### Project Structure
-```
-src/
-├── app/
-│   ├── controllers/          # Application controllers
-│   │   ├── ChatController.js     # Chat rendering logic
-│   │   ├── MessageController.js  # Message processing
-│   │   ├── SocketController.js   # WebSocket handling
-│   │   └── RequestsController.js # API requests
-│   └── middlewares/          # Express middlewares
-├── helpers/                  # Utility functions
-├── views/                    # Mustache templates
-│   ├── chat.mustache           # Main chat view
-│   ├── transparent.mustache    # Transparent overlay
-│   └── partials/               # Reusable components
-├── server.js                 # Application entry point
-├── routes.js                 # Route definitions
-├── sockets.js                # Socket.IO configuration
-└── viewEngine.js             # Template engine setup
-```
-
-#### Key Components
-
-- **ChatController**: Handles chat visualization and routing
-- **SocketController**: Manages WebSocket connections and real-time communication
-- **MessageController**: Processes and formats chat messages with emote support
-- **RequestsController**: Handles Twitch API requests for badges and emotes
-
-#### API Endpoints
-
-- `GET /` - Main application interface
-- `POST /` - Channel selection handler
-- `GET /:channel` - Chat visualization page
-- `GET /:channel/transparent` - Transparent overlay mode
-
-#### WebSocket Events
-
-- `username` - Channel connection initialization
-- `transparent` - Transparent link generation
-- `disconnect` - Connection cleanup
-
-## 🎨 Customization Options
-
-- **Username Styling**: Background colors, text colors
-- **Message Styling**: Background colors, text colors, font sizes
-- **Transparency**: Full transparency support for overlay usage
-- **Emote Integration**: Automatic emote replacement and sizing
-- **Badge Display**: Subscriber and moderator badges
-
-## 🔧 Configuration
-
-### Environment Variables
-
-| Variable | Description | Required |
-|----------|-------------|----------|
-| `PORT` | Server port (default: 3000) | No |
-| `CLIENT_ID` | Twitch application client ID | Yes |
-| `CLIENT_SECRET` | Twitch application client secret | Yes |
-
-### Dependencies
-
-| Package | Purpose |
-|---------|----------|
-| `express` | Web framework |
-| `socket.io` | Real-time communication |
-| `tmi.js` | Twitch chat integration |
-| `mustache-express` | Template rendering |
-| `axios` | HTTP requests |
-| `dotenv` | Environment configuration |
-| `cors` | Cross-origin resource sharing |
-| `moment` | Date/time formatting |
-| `uuid` | Unique identifier generation |
-
-## 🤝 Contributing
-
-1. Fork the repository
-2. Create a feature branch (`git checkout -b feature/amazing-feature`)
-3. Commit your changes (`git commit -m 'Add amazing feature'`)
-4. Push to the branch (`git push origin feature/amazing-feature`)
-5. Open a Pull Request
-
-## 📄 License
-
-This project is licensed under the MIT License - see the [LICENSE](LICENSE) file for details.
-
-## 🙏 Support
-
-If you find this project helpful, please consider:
-
-- ⭐ Starring this repository
-- 🐛 Reporting bugs and issues
-- 💡 Suggesting new features
-- 💸 [Supporting via PayPal](https://streamelements.com/christopherldo/tip)
-
-## 📞 Contact
-
-- GitHub: [@christopherldo](https://github.com/christopherldo)
-- Project Link: [https://github.com/christopherldo/twitch-chat-visualizer](https://github.com/christopherldo/twitch-chat-visualizer)
+Para mais detalhes sobre as restrições e liberdades, leia nossa [Escolha da Licença](docs/LICENSE_CHOICE.md) e o arquivo oficial [LICENSE](LICENSE).
 
 ---
-
-**Made with ❤️ for the streaming community**
+**Feito com ❤️ para a comunidade de streaming!**
