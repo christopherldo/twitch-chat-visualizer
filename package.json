@@ -8,6 +8,8 @@
   "scripts": {
     "dev": "pnpm --parallel -r dev",
     "dev:legacy": "pnpm --filter @twitch-chat-visualizer/legacy-express start",
+    "services:up": "docker run --name twitch-redis -d -p 6379:6379 redis:alpine",
+    "services:down": "docker stop twitch-redis && docker rm twitch-redis",
     "build": "pnpm -r build",
     "lint": "eslint .",
     "format": "prettier --write ."

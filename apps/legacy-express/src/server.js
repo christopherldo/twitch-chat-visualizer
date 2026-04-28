@@ -23,9 +23,9 @@ const httpServer = require("http").createServer(server);
 
 startSocketServer(httpServer);
 
-const PORT = process.env.PORT || 3000;
+const PORT = process.env.LEGACY_PORT || 3001;
 httpServer.listen(PORT, () => {
-  console.log(`Servidor rodando na porta: ${httpServer.address().port}`);
+  console.log(`Legado rodando na porta: ${httpServer.address().port}`);
 });
 
 module.exports = server;
