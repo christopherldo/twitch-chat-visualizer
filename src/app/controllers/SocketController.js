@@ -65,6 +65,17 @@ module.exports = {
     console.log(`Instance closed for channel: ${channel}`);
     console.log(`Online instances: ${connectedChannelsArray.join(', ')}`);
     console.log(`Total: ${connectedChannels.length}`);
+
+    // Previne vazamento de memória e conexões
+    if (socket.tmiClient) {
+      try {
+        socket.tmiClient.disconnect();
+        socket.tmiClient.removeAllListeners();
+      } catch (err) {
+        console.error(`Error disconnecting TMI client for ${channel}:`, err);
+      }
+      socket.tmiClient = null;
+    }
   },
   sendTransparentLink: (object, socket) => {
     sendTransparentLink(object, socket);

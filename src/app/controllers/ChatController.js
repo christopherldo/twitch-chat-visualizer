@@ -86,6 +86,9 @@ module.exports = {
       channels: [channel]
     });
 
+    // Armazena a instância do tmi client no socket para podermos desconectá-la posteriormente
+    socket.tmiClient = client;
+
     client.connect();
     console.log(`Chat started for channel '${channel}'!`);
 

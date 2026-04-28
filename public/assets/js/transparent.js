@@ -2,10 +2,29 @@ const socket = io();
 
 let removerTimer = false;
 
+// Sanitizer simples: Escapa tudo que não for tag <img> vinda do próprio Twitch/BTTV/FFZ
+function sanitizeHTML(str) {
+  if (!str) return '';
+  const div = document.createElement('div');
+  div.innerText = str;
+  let escapedStr = div.innerHTML;
+
+  // Restaura apenas as tags <img> de emotes geradas pelo backend, escapando atributos maliciosos
+  escapedStr = escapedStr.replace(
+    /&lt;img src=(?:"|&quot;)(https:\/\/(static-cdn\.jtvnw\.net|cdn\.betterttv\.net|cdn\.frankerfacez\.com)[^"&<>]+)(?:"|&quot;)(?: alt=(?:"|&quot;)([^"&<>]+)(?:"|&quot;))? ?\/?&gt;/gi,
+    (match, url, domain, alt) => {
+      const safeAlt = alt ? ` alt="${alt}"` : '';
+      return `<img src="${url}"${safeAlt}>`;
+    }
+  );
+
+  return escapedStr;
+}
+
 socket.on("message", function (messageObject) {
   let badges = messageObject.badges;
-  let username = messageObject.username;
-  let message = messageObject.message;
+  let username = sanitizeHTML(messageObject.username);
+  let message = sanitizeHTML(messageObject.message);
 
   document.getElementById("chat").insertAdjacentHTML("beforeend",
     ` <div class="message user-${username}" id="message">
