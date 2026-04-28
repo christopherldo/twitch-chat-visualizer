@@ -1,0 +1,26 @@
+<svg width="1200" height="630" viewBox="0 0 1200 630" fill="none" xmlns="http://www.w3.org/2000/svg">
+  <rect width="1200" height="630" rx="32" fill="#020617"/>
+  <rect x="40" y="40" width="1120" height="550" rx="28" fill="url(#bg)"/>
+  <rect x="92" y="112" width="470" height="368" rx="28" fill="#0F172A" stroke="#334155"/>
+  <rect x="132" y="162" width="214" height="48" rx="24" fill="#A855F7" fill-opacity="0.18"/>
+  <circle cx="164" cy="186" r="8" fill="#E879F9"/>
+  <text x="186" y="193" fill="#F8FAFC" font-family="Arial, Helvetica, sans-serif" font-size="22" font-weight="700">streamerpro</text>
+  <rect x="132" y="224" width="354" height="110" rx="24" fill="#F8FAFC"/>
+  <text x="160" y="272" fill="#0F172A" font-family="Arial, Helvetica, sans-serif" font-size="28" font-weight="700">Overlay de chat Twitch</text>
+  <text x="160" y="314" fill="#334155" font-family="Arial, Helvetica, sans-serif" font-size="24">Pronto para OBS em poucos minutos.</text>
+  <rect x="614" y="122" width="474" height="60" rx="30" fill="#A855F7" fill-opacity="0.16"/>
+  <text x="648" y="160" fill="#F5D0FE" font-family="Arial, Helvetica, sans-serif" font-size="24" font-weight="700">Twitch Chat Visualizer</text>
+  <text x="614" y="248" fill="#FFFFFF" font-family="Arial, Helvetica, sans-serif" font-size="56" font-weight="800">Overlay de Chat Twitch</text>
+  <text x="614" y="312" fill="#E2E8F0" font-family="Arial, Helvetica, sans-serif" font-size="34" font-weight="600">Visualizador de chat para streamers</text>
+  <text x="614" y="368" fill="#CBD5E1" font-family="Arial, Helvetica, sans-serif" font-size="28">Twitch chat OBS overlay com fundo transparente,</text>
+  <text x="614" y="408" fill="#CBD5E1" font-family="Arial, Helvetica, sans-serif" font-size="28">badges, emotes e configuracao rapida.</text>
+  <rect x="614" y="456" width="286" height="64" rx="32" fill="#FFFFFF"/>
+  <text x="660" y="496" fill="#020617" font-family="Arial, Helvetica, sans-serif" font-size="24" font-weight="700">Criar overlay gratis</text>
+  <defs>
+    <linearGradient id="bg" x1="40" y1="40" x2="1160" y2="590" gradientUnits="userSpaceOnUse">
+      <stop stop-color="#111827"/>
+      <stop offset="0.5" stop-color="#1E1B4B"/>
+      <stop offset="1" stop-color="#0F172A"/>
+    </linearGradient>
+  </defs>
+</svg>
