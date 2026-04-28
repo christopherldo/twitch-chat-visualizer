@@ -5,13 +5,7 @@ import { TokenManagerService } from '../auth/token-manager.service';
 import { ConfigService } from '@nestjs/config';
 import axios from 'axios';
 import qs from 'qs';
-
-export interface ChannelAssets {
-  globalBadges: any;
-  channelBadges: any;
-  bttvEmotes: any[];
-  ffzEmotes: any[];
-}
+import { ChannelAssets, BttvEmote, FfzEmote } from '@twitch-chat-visualizer/shared';
 
 @Injectable()
 export class EmoteCacheService {
@@ -86,7 +80,7 @@ export class EmoteCacheService {
       const globalBadges = globalBadgesRes.status === 'fulfilled' ? globalBadgesRes.value.data : null;
       const channelBadges = channelBadgesRes.status === 'fulfilled' ? channelBadgesRes.value.data : null;
       
-      const bttvEmotes: any[] = [];
+      const bttvEmotes: BttvEmote[] = [];
       if (bttvChannelRes.status === 'fulfilled') {
         bttvEmotes.push(...(bttvChannelRes.value.data.channelEmotes || []));
         bttvEmotes.push(...(bttvChannelRes.value.data.sharedEmotes || []));
@@ -95,7 +89,7 @@ export class EmoteCacheService {
         bttvEmotes.push(...(bttvGlobalRes.value.data || []));
       }
 
-      const ffzEmotes: any[] = [];
+      const ffzEmotes: FfzEmote[] = [];
       if (ffzChannelRes.status === 'fulfilled') {
         const sets = ffzChannelRes.value.data.sets;
         const setKey = Object.keys(sets)[0];

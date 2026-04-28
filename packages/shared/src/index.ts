@@ -16,6 +16,43 @@ export interface Emote {
   url: string;
 }
 
+export interface BttvEmote {
+  id: string;
+  code: string;
+  imageType: string;
+  animated: boolean;
+}
+
+export interface FfzEmote {
+  id: number;
+  name: string;
+  height: number;
+  width: number;
+}
+
+export interface TwitchBadgeVersion {
+  id: string;
+  image_url_1x: string;
+  image_url_2x: string;
+  image_url_4x: string;
+}
+
+export interface TwitchBadgeSet {
+  set_id: string;
+  versions: TwitchBadgeVersion[];
+}
+
+export interface TwitchBadgesResponse {
+  data: TwitchBadgeSet[];
+}
+
+export interface ChannelAssets {
+  globalBadges: TwitchBadgesResponse | null;
+  channelBadges: TwitchBadgesResponse | null;
+  bttvEmotes: BttvEmote[];
+  ffzEmotes: FfzEmote[];
+}
+
 export interface ChannelMessage {
   username: string;
   message: string;

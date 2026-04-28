@@ -11,6 +11,7 @@ import { Server, Socket } from 'socket.io';
 import { Logger } from '@nestjs/common';
 import { TwitchService, TwitchMessagePayload } from '../twitch/twitch.service';
 import { EmoteCacheService } from '../cache/emote-cache.service';
+import { BttvEmote, FfzEmote, TwitchBadgesResponse } from '@twitch-chat-visualizer/shared';
 
 @WebSocketGateway({
   cors: {
@@ -82,15 +83,15 @@ export class ChatGateway implements OnGatewayConnection, OnGatewayDisconnect {
     client.emit('redirect', link);
   }
 
-  private findBadgeUrl(badgesPayload: any, setId: string, versionId: string): string | null {
+  private findBadgeUrl(badgesPayload: TwitchBadgesResponse | null | undefined, setId: string, versionId: string): string | null {
     if (!badgesPayload || !badgesPayload.data) return null;
-    const set = badgesPayload.data.find((s: any) => s.set_id === setId);
+    const set = badgesPayload.data.find((s) => s.set_id === setId);
     if (!set) return null;
-    const version = set.versions.find((v: any) => v.id === versionId);
+    const version = set.versions.find((v) => v.id === versionId);
     return version ? (version.image_url_4x || version.image_url_2x || version.image_url_1x) : null;
   }
 
-  private parseEmotes(message: string, emotesRaw: string | undefined, bttvEmotes: any[] = [], ffzEmotes: any[] = []): string {
+  private parseEmotes(message: string, emotesRaw: string | undefined, bttvEmotes: BttvEmote[] = [], ffzEmotes: FfzEmote[] = []): string {
     if (!message) return '';
 
     let messageWords = message.split(' ');
@@ -119,13 +120,13 @@ export class ChatGateway implements OnGatewayConnection, OnGatewayDisconnect {
       }
 
       // Checa BTTV
-      const bttvMatch = bttvEmotes.find((e: any) => e.code === word);
+      const bttvMatch = bttvEmotes.find((e) => e.code === word);
       if (bttvMatch) {
         return `<img src="https://cdn.betterttv.net/emote/${bttvMatch.id}/1x" alt="${word}">`;
       }
 
       // Checa FFZ
-      const ffzMatch = ffzEmotes.find((e: any) => e.name === word);
+      const ffzMatch = ffzEmotes.find((e) => e.name === word);
       if (ffzMatch) {
         return `<img src="https://cdn.frankerfacez.com/emote/${ffzMatch.id}/1" alt="${word}">`;
       }
