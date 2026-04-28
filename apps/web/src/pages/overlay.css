@@ -1,21 +1,11 @@
 @keyframes message-box {
   0% {
-    width: 0%;
+    opacity: 0;
+    transform: translateY(10px) scale(0.95);
   }
   100% {
-    width: 100%;
-  }
-}
-
-@keyframes message-content {
-  0% {
-    font-size: 0px;
-  }
-  99% {
-    font-size: 0px;
-  }
-  100% {
-    font-size: 12px;
+    opacity: 1;
+    transform: translateY(0) scale(1);
   }
 }
 
@@ -39,7 +29,9 @@ html, body {
 
 .message {
   margin: 5px 0;
-  animation: message-box 0.3s ease-out;
+  animation: message-box 0.25s cubic-bezier(0.25, 0.8, 0.25, 1) forwards;
+  will-change: transform, opacity;
+  width: 100%;
 }
 
 .message .badge-and-name {
@@ -50,12 +42,12 @@ html, body {
   padding: 5px 10px;
   margin: 0 10px;
   text-transform: uppercase;
-  max-width: calc(100vw - 50px);
   font-weight: bold;
   color: #fff;
   word-wrap: break-word;
   position: relative;
   z-index: 2;
+  white-space: nowrap;
 }
 
 .message .message-content {
@@ -73,13 +65,16 @@ html, body {
   margin: 0;
   word-wrap: break-word;
   overflow: hidden;
+  /* Adicionando isso para que imgs e spans fluam juntos inline */
+  display: inline;
 }
 
 .img {
   min-height: 15px;
   min-width: 15px;
-  height: 100%;
-  width: auto;
+  height: 15px;
+  width: 15px;
+  display: inline-block;
   margin-right: 5px;
 }
 
@@ -87,4 +82,6 @@ html, body {
 .message-content img {
   height: 28px;
   vertical-align: middle;
+  display: inline-block;
+  margin: 0 2px;
 }
