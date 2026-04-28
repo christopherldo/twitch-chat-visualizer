@@ -1,22 +1,19 @@
 {
   "name": "twitch-chat-visualizer",
   "version": "1.0.0",
-  "license": "PolyForm-Noncommercial-1.0.0",
-  "dependencies": {
-    "axios": "^0.21.1",
-    "cors": "^2.8.5",
-    "dotenv": "^8.2.0",
-    "express": "^4.17.1",
-    "moment": "^2.29.4",
-    "mustache-express": "^1.3.0",
-    "qs": "^6.10.1",
-    "socket.io": "^3.0.3",
-    "tmi.js": "^1.5.0",
-    "uuid": "^8.3.2"
+  "private": true,
+  "engines": {
+    "node": ">=22"
   },
   "scripts": {
-    "start": "node src/server.js",
-    "format": "prettier --write .",
-    "lint": "eslint ."
+    "dev": "pnpm --parallel -r dev",
+    "dev:legacy": "pnpm --filter @twitch-chat-visualizer/legacy-express start",
+    "build": "pnpm -r build",
+    "lint": "eslint .",
+    "format": "prettier --write ."
+  },
+  "devDependencies": {
+    "eslint": "^8.57.0",
+    "prettier": "^3.2.5"
   }
 }
