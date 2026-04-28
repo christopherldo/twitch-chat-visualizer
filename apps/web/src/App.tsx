@@ -1,11 +1,16 @@
-import React from 'react';
+import { BrowserRouter, Routes, Route, Navigate } from 'react-router-dom';
+import { SettingsPage } from './pages/SettingsPage';
+import { OverlayPage } from './pages/OverlayPage';
 
 function App() {
   return (
-    <div style={{ padding: '2rem', fontFamily: 'sans-serif' }}>
-      <h1>Twitch Chat Visualizer v2</h1>
-      <p>O monorepo está pronto e o frontend está conectado.</p>
-    </div>
+    <BrowserRouter>
+      <Routes>
+        <Route path="/" element={<Navigate to="/transparent" replace />} />
+        <Route path="/transparent" element={<SettingsPage />} />
+        <Route path="/:channel/transparent" element={<OverlayPage />} />
+      </Routes>
+    </BrowserRouter>
   );
 }
 
