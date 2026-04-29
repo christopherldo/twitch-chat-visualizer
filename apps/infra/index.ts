@@ -4,8 +4,6 @@ import * as tls from '@pulumi/tls';
 
 // 1. Configurações e Networking base
 const config = new pulumi.Config();
-// Requer que o usuário configure a senha (pulumi config set --secret dbPassword "suaSenhaSegura")
-const dbPassword = config.requireSecret('dbPassword');
 
 // Gera uma chave SSH privada/pública dinamicamente para o EC2
 const sshKey = new tls.PrivateKey('ec2-ssh-key', {
@@ -65,24 +63,7 @@ const redisCluster = new aws.elasticache.Cluster('redis-cluster', {
   subnetGroupName: redisSubnetGroup.name,
 });
 
-// 4. PostgreSQL Database (RDS - Free Tier eligible db.t4g.micro)
-const dbSubnetGroup = new aws.rds.SubnetGroup('db-subnet-group', {
-  subnetIds: subnets.ids,
-});
-
-const postgresDb = new aws.rds.Instance('postgres-db', {
-  engine: 'postgres',
-  engineVersion: '16.13', // Versão suportada verificada na AWS
-  instanceClass: 'db.t4g.micro', // Free Tier
-  allocatedStorage: 20, // Free Tier contempla 20GB
-  dbName: 'twitchchat',
-  username: 'postgres',
-  password: dbPassword,
-  parameterGroupName: 'default.postgres16',
-  skipFinalSnapshot: true,
-  vpcSecurityGroupIds: [dataSg.id],
-  dbSubnetGroupName: dbSubnetGroup.name,
-});
+// 4. PostgreSQL Database (RDS) - Removido por enquanto, será adicionado na próxima fase do Roadmap
 
 // 5. Servidor Web / API (EC2 - Free Tier t4g.micro ARM64)
 // Busca a AMI mais recente do Amazon Linux 2023 para ARM64
@@ -94,7 +75,7 @@ const ami = aws.ec2.getAmiOutput({
 
 // Script de inicialização (User Data) que instalará Docker, clonará o projeto e iniciará o compose
 // Usa pulumi.all para desempacotar as Promises/Outputs e aplicar o interpolate de forma segura
-const userData = pulumi.all([redisCluster.cacheNodes[0].address, postgresDb.address, dbPassword]).apply(([redisHost, dbHost, dbPass]) => `#!/bin/bash
+const userData = pulumi.all([redisCluster.cacheNodes[0].address]).apply(([redisHost]) => `#!/bin/bash
 # Atualiza e instala dependências básicas
 sudo dnf update -y
 sudo dnf install -y docker git
@@ -115,7 +96,6 @@ cd /home/ec2-user/app
 cat <<EOT >> .env
 NODE_ENV=production
 REDIS_URL=redis://${redisHost}:6379
-DATABASE_URL=postgresql://postgres:${dbPass}@${dbHost}:5432/twitchchat
 VITE_API_URL=http://localhost:3000
 EOT
 
@@ -141,6 +121,5 @@ const webServer = new aws.ec2.Instance('web-server', {
 export const publicIp = webServer.publicIp;
 export const publicDns = webServer.publicDns;
 export const redisEndpoint = redisCluster.cacheNodes[0].address;
-export const dbEndpoint = postgresDb.address;
 // Exporta a chave privada (use com cuidado e não exponha em logs)
 export const privateKey = sshKey.privateKeyPem;
