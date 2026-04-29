@@ -1,0 +1,7 @@
+services:
+  web:
+    ports:
+      - "443:443"
+    volumes:
+      - /etc/letsencrypt:/etc/letsencrypt:ro
+      - ./apps/web/nginx-prod.conf:/etc/nginx/conf.d/default.conf:ro
