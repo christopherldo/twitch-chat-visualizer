@@ -1,10 +1,23 @@
 import * as pulumi from '@pulumi/pulumi';
 import * as aws from '@pulumi/aws';
+import * as tls from '@pulumi/tls';
 
 // 1. Configurações e Networking base
 const config = new pulumi.Config();
 // Requer que o usuário configure a senha (pulumi config set --secret dbPassword "suaSenhaSegura")
 const dbPassword = config.requireSecret('dbPassword');
+
+// Gera uma chave SSH privada/pública dinamicamente para o EC2
+const sshKey = new tls.PrivateKey('ec2-ssh-key', {
+  algorithm: 'RSA',
+  rsaBits: 4096,
+});
+
+// Registra a chave pública na AWS
+const awsKeyPair = new aws.ec2.KeyPair('web-keypair', {
+  keyName: 'twitch-chat-visualizer-key',
+  publicKey: sshKey.publicKeyOpenssh,
+});
 
 // Utilizando a VPC padrão e suas sub-redes (ótimo para projetos simples/Free Tier)
 const vpc = aws.ec2.getVpcOutput({ default: true });
@@ -116,6 +129,7 @@ chown -R ec2-user:ec2-user /home/ec2-user/app
 const webServer = new aws.ec2.Instance('web-server', {
   instanceType: 't4g.micro',
   ami: ami.id,
+  keyName: awsKeyPair.keyName,
   vpcSecurityGroupIds: [webSg.id],
   userData: userData,
   tags: {
@@ -128,3 +142,5 @@ export const publicIp = webServer.publicIp;
 export const publicDns = webServer.publicDns;
 export const redisEndpoint = redisCluster.cacheNodes[0].address;
 export const dbEndpoint = postgresDb.address;
+// Exporta a chave privada (use com cuidado e não exponha em logs)
+export const privateKey = sshKey.privateKeyPem;

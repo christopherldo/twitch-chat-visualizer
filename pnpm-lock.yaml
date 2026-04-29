@@ -138,6 +138,9 @@ importers:
       '@pulumi/pulumi':
         specifier: ^3.100.0
         version: 3.232.0(typescript@5.9.3)
+      '@pulumi/tls':
+        specifier: ^5.3.1
+        version: 5.3.1(typescript@5.9.3)
     devDependencies:
       '@types/node':
         specifier: ^22.0.0
@@ -1418,6 +1421,9 @@ packages:
         optional: true
       typescript:
         optional: true
+
+  '@pulumi/tls@5.3.1':
+    resolution: {integrity: sha512-cirkgzVjCCWabKALHw3QCW67UCFkcEhdTqJIuniivbOyuk2jitLCHfLOcyGh/QoS0p5cC+eRMlNZ+Z1+gu/p+Q==}
 
   '@redis/bloom@1.2.0':
     resolution: {integrity: sha512-HG2DFjYKbpNmVXsa0keLHp/3leGJz1mjh09f2RLGGLQZzSHpkmZWuwJbAvo3QcRY8p80m5+ZdXZdYOSBLlp7Cg==}
@@ -6136,6 +6142,14 @@ snapshots:
       typescript: 5.9.3
     transitivePeerDependencies:
       - supports-color
+
+  '@pulumi/tls@5.3.1(typescript@5.9.3)':
+    dependencies:
+      '@pulumi/pulumi': 3.232.0(typescript@5.9.3)
+    transitivePeerDependencies:
+      - supports-color
+      - ts-node
+      - typescript
 
   '@redis/bloom@1.2.0(@redis/client@1.6.1)':
     dependencies:

@@ -33,6 +33,21 @@ To provision the infrastructure on AWS:
 pulumi up
 ```
 
+### Accessing the EC2 Instance via SSH
+
+The infrastructure automatically generates an SSH Key Pair for you. To access the server, you need to extract the private key from the Pulumi outputs, save it to a file, and restrict its permissions:
+
+```bash
+# 1. Extract the key to a file
+pulumi stack output privateKey --show-secrets > ec2_key.pem
+
+# 2. Set strict permissions (required by SSH)
+chmod 400 ec2_key.pem
+
+# 3. Connect to the instance
+ssh -i ec2_key.pem ec2-user@$(pulumi stack output publicIp)
+```
+
 ## Destroy
 
 To tear down all resources and stop incurring charges (if outside Free Tier):
