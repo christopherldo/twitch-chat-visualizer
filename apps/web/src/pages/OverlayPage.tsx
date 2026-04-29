@@ -52,6 +52,13 @@ export function OverlayPage() {
   const fontSize = searchParams.get('fontsize') || '14';
 
   useEffect(() => {
+    document.body.classList.add('is-overlay');
+    return () => {
+      document.body.classList.remove('is-overlay');
+    };
+  }, []);
+
+  useEffect(() => {
     if (!channel) return;
 
     // Connect to WebSocket (relative if same domain, or specify backend URL in dev)
