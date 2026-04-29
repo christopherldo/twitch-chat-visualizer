@@ -1,123 +1,163 @@
-# Twitch Chat Visualizer
+# 📺 Twitch Chat Visualizer
 
-![GitHub repo size](https://img.shields.io/github/repo-size/christopherldo/twitch-chat-visualizer?style=for-the-badge)
-![GitHub language count](https://img.shields.io/github/languages/count/christopherldo/twitch-chat-visualizer?style=for-the-badge)
-![GitHub forks](https://img.shields.io/github/forks/christopherldo/twitch-chat-visualizer?style=for-the-badge)
+> **A high-performance, real-time Twitch chat overlay for modern streaming.**
 
-> Um overlay de chat em tempo real moderno, ultra-otimizado e seguro, desenhado para streamers e criadores de conteúdo na Twitch. Integração perfeita com o OBS Studio. Totalmente refatorado para os padrões corporativos de 2026!
+![TypeScript](https://img.shields.io/badge/TypeScript-007ACC?style=for-the-badge&logo=typescript&logoColor=white)
+![React](https://img.shields.io/badge/React_19-20232A?style=for-the-badge&logo=react&logoColor=61DAFB)
+![NestJS](https://img.shields.io/badge/NestJS_11-E0234E?style=for-the-badge&logo=nestjs&logoColor=white)
+![Build Status](https://img.shields.io/badge/Build-Passing-brightgreen?style=for-the-badge&logo=githubactions&logoColor=white)
+![License](https://img.shields.io/badge/License-MIT-blue.svg?style=for-the-badge)
 
-## 🌟 Sobre o Projeto
+---
 
-O Twitch Chat Visualizer v2 é uma aplicação monorepo construída para alta escalabilidade e segurança. Ele recebe e converte as mensagens e os eventos de moderação (bans, timeouts, apagamentos) diretamente da IRC da Twitch para um overlay limpo e personalizável via navegador. Suporta **emotes nativos, BetterTTV e FrankerFaceZ**, renderizados através de uma engine reativa em React 19.
+## 📖 About The Project
 
-## 🚀 Tecnologias e Arquitetura
+**Twitch Chat Visualizer** is an enterprise-grade real-time chat overlay system designed for OBS, XSplit, and other broadcasting software. It listens to Twitch IRC channels and instantly renders chat messages, emotes, and user badges onto a highly customizable, transparent web overlay.
 
-Este projeto adota um **Monorepo (pnpm workspaces)** separando as responsabilidades:
+Originally built as a monolithic application, the project has been fully modernized into a scalable, type-safe monorepo. It resolves common pain points for streamers by ensuring ultra-low latency, eliminating memory leaks through intelligent connection pooling, and strictly sanitizing all inputs to prevent XSS vulnerabilities.
 
-![NestJS](https://img.shields.io/badge/NestJS-E0234E?style=for-the-badge&logo=nestjs&logoColor=white)
-![Fastify](https://img.shields.io/badge/fastify-000000?style=for-the-badge&logo=fastify&logoColor=white)
-![React](https://img.shields.io/badge/React-20232A?style=for-the-badge&logo=react&logoColor=61DAFB)
-![Vite](https://img.shields.io/badge/Vite-B73BFE?style=for-the-badge&logo=vite&logoColor=FFD62E)
-![Tailwind CSS](https://img.shields.io/badge/Tailwind_CSS-38B2AC?style=for-the-badge&logo=tailwind-css&logoColor=white)
-![Redis](https://img.shields.io/badge/redis-%23DD0031.svg?style=for-the-badge&logo=redis&logoColor=white)
-![Docker](https://img.shields.io/badge/Docker-2CA5E0?style=for-the-badge&logo=docker&logoColor=white)
+### ✨ Key Features
+- **Real-Time Rendering:** Instantaneous chat delivery powered by WebSockets (Socket.IO).
+- **Customizable Overlay:** Adjust fonts, background colors, and text colors dynamically via URL parameters.
+- **Resource Optimization:** Centralized Twitch connection manager ensuring only one TMI client is spawned per channel, regardless of concurrent overlay viewers.
+- **Robust Security:** Strict HTML sanitization to prevent XSS attacks from malicious chat messages.
+- **Emote & Badge Support:** Native integration with Twitch, BTTV, and FFZ assets.
 
-```text
-twitch-chat-visualizer/
-├── apps/
-│   ├── api/                 # NestJS API Gateway + WebSockets (Fastify)
-│   └── web/                 # React 19 SPA (Vite + Tailwind CSS v4)
-├── packages/
-│   ├── config-ts/           # Base tsconfig para o monorepo
-│   └── shared/              # Tipagens e schemas Zod compartilhados
-└── docker-compose.yaml      # Orquestração local (Redis, API, Nginx/Web)
+### 🏗️ Architecture Flow
+
+```mermaid
+graph TD
+    subgraph "pnpm Monorepo"
+        Web[Frontend: React 19 + Vite]
+        API[Backend: NestJS + Fastify]
+    end
+
+    subgraph "External Services"
+        Redis[(Redis Cache)]
+        TwitchAPI[Twitch / BTTV / FFZ APIs]
+        TwitchChat[Twitch IRC / TMI]
+    end
+
+    Web <-->|WebSockets| API
+    API <-->|Fetch Assets| Redis
+    Redis <-->|Cache Miss| TwitchAPI
+    API <-->|Shared Singleton Connection| TwitchChat
 ```
 
-## 📋 Pré-requisitos
+---
 
-Para rodar este projeto localmente, você precisará de:
-- **Node.js** 22+ (LTS)
-- **pnpm** (gerenciador de pacotes v9+)
-- **Docker** e **Docker Compose** (para Redis e deploy de produção)
-- Uma **Conta de Desenvolvedor da Twitch** (Para obter o Client ID e Secret)
+## 🛠️ Tech Stack
 
-## 🛠️ Configuração e Instalação
+This project leverages a modern, decoupled monorepo architecture using **pnpm workspaces**:
 
-1. **Clone o repositório:**
+**Frontend (`apps/web`)**
+- ⚛️ **React 19** & **Vite** - Lightning-fast UI rendering and build tooling.
+- 🐻 **Zustand** - Minimalist, flux-like state management.
+- 🎨 **Tailwind CSS v4** - Utility-first styling engine.
+
+**Backend (`apps/api`)**
+- 🦁 **NestJS 11** (Fastify Adapter) - Progressive Node.js framework.
+- 🔌 **Socket.IO** & **tmi.js** - Real-time bidirectional event-based communication and Twitch IRC integration.
+- 💾 **Redis** - In-memory data structure store for caching API assets and socket adapters.
+
+**DevOps & Tooling**
+- 🐳 **Docker & Docker Compose** - Containerized local development and production deployments.
+- 🏗️ **Pulumi** - Infrastructure as Code (IaC) for AWS deployments.
+- 🧪 **Vitest** - Blazing fast unit test framework.
+
+---
+
+## 🚀 Getting Started
+
+### Prerequisites
+
+Ensure you have the following installed on your local machine:
+- [Node.js](https://nodejs.org/) (v22 or higher)
+- [pnpm](https://pnpm.io/) (v9+)
+- [Docker & Docker Compose](https://www.docker.com/)
+- A Twitch Developer App (for `TWITCH_CLIENT_ID` and `TWITCH_CLIENT_SECRET`)
+
+### Installation
+
+1. **Clone the repository:**
    ```bash
-   git clone https://github.com/christopherldo/twitch-chat-visualizer.git
+   git clone https://github.com/your-username/twitch-chat-visualizer.git
    cd twitch-chat-visualizer
    ```
 
-2. **Instale as dependências da monorepo:**
+2. **Install dependencies:**
    ```bash
    pnpm install
    ```
 
-3. **Configure as Variáveis de Ambiente:**
-   Copie o arquivo de exemplo e edite com suas credenciais da Twitch (obtidas em [dev.twitch.tv](https://dev.twitch.tv/console)):
+3. **Configure Environment Variables:**
    ```bash
    cp .env.example .env
    ```
-   *Exemplo do `.env`:*
-   ```env
-   TWITCH_CLIENT_ID=seu_client_id_aqui
-   TWITCH_CLIENT_SECRET=seu_client_secret_aqui
-   REDIS_URL=redis://localhost:6379
-   PORT=3000
-   ```
+   *Edit `.env` and insert your Twitch Client ID and Secret.*
 
-## 💻 Desenvolvimento Local
-
-Para rodar em ambiente de desenvolvimento (Hot-Reload ativo para Backend e Frontend):
-
-1. **Suba o Redis localmente** (requer Docker):
+4. **Start the Infrastructure (Redis):**
    ```bash
-   pnpm run services:up
+   pnpm services:up
    ```
-2. **Inicie o monorepo:**
-   ```bash
-   pnpm dev
-   ```
-   - **Frontend (Painel e Overlay):** `http://localhost:5173`
-   - **Backend API:** `http://localhost:3000`
-   - **Swagger Docs:** `http://localhost:3000/api/docs`
-
-### Comandos Úteis
-- `pnpm build` — Compila todos os workspaces para a pasta `dist`.
-- `pnpm test` — Roda as suítes de teste (Vitest).
-- `pnpm lint` — Executa análise estática (ESLint) em todo o código.
-
-## 🐳 Produção com Docker
-
-Para ambientes de produção, o projeto dispõe de Dockerfiles multi-stage otimizados. O Frontend é servido por um Nginx superleve que também atua como proxy reverso para a API.
-
-Suba toda a infraestrutura com um único comando:
-```bash
-docker compose up --build -d
-```
-A aplicação estará disponível em **`http://localhost`** (porta 80).
-
-**Health Check:**
-Você pode verificar a saúde do serviço, memória e conexão com Redis em:
-```bash
-curl http://localhost/api/health
-```
-
-## 🤝 Contribuição e Guias
-
-- **Quer contribuir?** Veja nosso [Guia de Onboarding](docs/ONBOARDING.md) para entender os padrões de código, TypeScript Strict e fluxo de PRs.
-- **Documentação da API:** Os endpoints REST e detalhes do WebSocket estão documentados em [docs/API.md](docs/API.md) e interativamente via Swagger local.
-
-### 🛡️ Relatório de Vulnerabilidades
-A segurança é prioridade (temos zero tolerância a XSS). Se encontrar uma vulnerabilidade, por favor, **NÃO** abra uma issue pública. Entre em contato diretamente com o mantenedor de forma privada para coordenarmos um patch seguro.
-
-## 📄 Licença
-
-Este projeto adota a licença **PolyForm Noncommercial License 1.0.0**. 
-Você é livre para modificar, estudar e utilizar pessoalmente em suas transmissões, mas **a revenda ou o uso comercial/SaaS deste código é estritamente proibido.** 
-
-Para mais detalhes sobre as restrições e liberdades, leia nossa [Escolha da Licença](docs/LICENSE_CHOICE.md) e o arquivo oficial [LICENSE](LICENSE).
 
 ---
-**Feito com ❤️ para a comunidade de streaming!**
+
+## 💻 Usage
+
+### Development Mode
+To start both the frontend and backend simultaneously in watch mode:
+```bash
+pnpm dev
+```
+- Frontend will be available at: `http://localhost:5173`
+- Backend API/Sockets will be available at: `http://localhost:3000`
+
+### Production Build
+To compile the TypeScript code and build the React frontend:
+```bash
+pnpm build
+```
+
+To run the entire stack using Docker in production mode:
+```bash
+docker compose up -d
+```
+
+### OBS Integration Example
+Once the server is running, add a **Browser Source** in OBS Studio with the following URL structure:
+```text
+http://localhost:5173/overlay/your_twitch_channel?namebackground=333333&namecolor=ffffff&messagebackground=ffffff&messagecolor=000000&fontsize=16
+```
+*(Customize the query parameters to match your stream's branding)*
+
+---
+
+## 📂 Project Structure
+
+```text
+twitch-chat-visualizer/
+├── apps/
+│   ├── api/                # NestJS Backend (WebSockets, Twitch TMI, Caching)
+│   ├── web/                # React 19 Frontend (Overlay UI, Zustand)
+│   └── infra/              # Pulumi IaC configuration for AWS
+├── packages/
+│   ├── shared/             # Shared TypeScript interfaces & types
+│   └── config-ts/          # Centralized TS & ESLint configurations
+├── docs/                   # Additional documentation (API, Onboarding)
+├── .env.example            # Environment variables template
+├── docker-compose.yaml     # Local orchestration (Redis, API, Web)
+├── pnpm-workspace.yaml     # Monorepo workspace configuration
+└── package.json            # Root configuration and scripts
+```
+
+---
+
+## 🗺️ Roadmap / To-Do
+
+Based on current architectural goals, the following improvements are planned:
+
+- [ ] **Asset Caching:** Implement aggressive Redis caching for Twitch, BTTV, and FFZ emotes to prevent external API rate limiting.
+- [ ] **E2E Testing:** Introduce **Playwright** to establish robust end-to-end testing for the critical path of the OBS overlay rendering.
+- [ ] **Client-Side Routing:** Migrate to **TanStack Router** on the frontend for fully type-safe, deterministic routing.
+- [ ] **Database Persistence:** Integrate PostgreSQL via **Drizzle ORM** to persistently store and load user-specific overlay configurations.
