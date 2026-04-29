@@ -28,7 +28,7 @@ echo "=========================================="
 # O Certbot vai subir um servidor temporário na porta 80 para validar o domínio
 sudo certbot certonly --standalone -d $DOMAIN -m $EMAIL --agree-tos --non-interactive
 
-if [ ! -d "/etc/letsencrypt/live/$DOMAIN" ]; then
+if ! sudo test -d "/etc/letsencrypt/live/$DOMAIN"; then
   echo "❌ Falha ao gerar o certificado SSL. Verifique se o DNS propagou."
   docker compose start web
   exit 1
