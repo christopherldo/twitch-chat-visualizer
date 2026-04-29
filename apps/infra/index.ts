@@ -106,7 +106,6 @@ cd /home/ec2-user/app
 cat <<EOT >> .env
 NODE_ENV=production
 REDIS_URL=redis://${redisHost}:6379
-VITE_API_URL=http://localhost:3000
 EOT
 
 chown -R ec2-user:ec2-user /home/ec2-user/app

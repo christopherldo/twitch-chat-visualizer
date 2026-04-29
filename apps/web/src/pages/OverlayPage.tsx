@@ -62,7 +62,7 @@ export function OverlayPage() {
     if (!channel) return;
 
     // Connect to WebSocket (relative if same domain, or specify backend URL in dev)
-    const socketUrl = import.meta.env.VITE_API_URL || 'http://localhost:3000';
+    const socketUrl = import.meta.env.VITE_API_URL || (import.meta.env.DEV ? 'http://localhost:3000' : '/');
     const socket = io(socketUrl);
     socketRef.current = socket;
 

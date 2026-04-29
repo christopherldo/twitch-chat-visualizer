@@ -30,7 +30,7 @@ describe('OverlayPage', () => {
       </MemoryRouter>
     );
 
-    const mSocket = io('http://localhost');
+    const mSocket = io('/');
     expect(io).toHaveBeenCalled();
     
     // Simulate connect event
