@@ -1,134 +1,178 @@
-const quickLinks = [
-  { label: 'Funcionalidades', href: '#funcionalidades' },
-  { label: 'Como funciona', href: '#como-funciona' },
-  { label: 'Casos de uso', href: '#casos-de-uso' },
-  { label: 'FAQ', href: '#faq' },
-] as const;
+import { useEffect, useState } from 'react';
+import { ArrowRight, MousePointerClick, ShieldCheck, Zap } from 'lucide-react';
+import { ChatPreview } from '../../components/ChatPreview';
+import { Reveal } from '../../components/Reveal';
+import { presets } from '../../lib/presets';
 
-function OverlayPreview() {
-  return (
-    <div className="relative isolate overflow-hidden rounded-[2rem] border border-white/10 bg-slate-950/80 p-5 shadow-2xl shadow-fuchsia-950/30">
-      <div className="absolute inset-0 bg-[radial-gradient(circle_at_top,_rgba(168,85,247,0.18),_transparent_45%),radial-gradient(circle_at_bottom_right,_rgba(34,211,238,0.16),_transparent_35%)]" />
-      <div className="relative space-y-4">
-        <div className="flex items-center justify-between rounded-2xl border border-white/10 bg-slate-900/80 px-4 py-3 text-xs text-slate-300">
-          <span className="font-semibold tracking-[0.2em] text-fuchsia-300 uppercase">OBS Browser Source</span>
-          <span className="rounded-full bg-emerald-400/15 px-3 py-1 text-emerald-300">Ao vivo</span>
-        </div>
+const stats = [
+  { label: 'Setup', value: '<2 min', icon: Zap },
+  { label: 'Latencia', value: '~0 ms', icon: MousePointerClick },
+  { label: 'XSS', value: 'sanitizado', icon: ShieldCheck },
+];
 
-        <div className="grid gap-3">
-          <article className="rounded-2xl border border-fuchsia-400/30 bg-white/95 p-4 text-slate-900 shadow-lg">
-            <div className="mb-3 inline-flex items-center gap-2 rounded-full bg-slate-900 px-3 py-1 text-xs font-semibold text-white">
-              <span className="h-2 w-2 rounded-full bg-fuchsia-400" />
-              streamerpro
-            </div>
-            <p className="text-sm leading-6">
-              Esse overlay de chat Twitch ficou limpo demais. Agora da para ler tudo sem poluir a tela.
-            </p>
-          </article>
-
-          <article className="ml-6 rounded-2xl border border-cyan-400/30 bg-slate-900/90 p-4 text-slate-100 shadow-lg">
-            <div className="mb-3 inline-flex items-center gap-2 rounded-full bg-cyan-400/15 px-3 py-1 text-xs font-semibold text-cyan-200">
-              <span className="h-2 w-2 rounded-full bg-cyan-300" />
-              modchat
-            </div>
-            <p className="text-sm leading-6">
-              Copiei a URL, colei no OBS e o visualizador de chat para streamers ja entrou na cena.
-            </p>
-          </article>
-        </div>
-
-        <div className="rounded-2xl border border-white/10 bg-slate-900/80 p-4">
-          <div className="mb-4 flex items-center justify-between text-sm text-slate-300">
-            <span>Canal: `seu_canal`</span>
-            <span>Overlay transparente</span>
-          </div>
-          <div className="grid grid-cols-2 gap-3 text-xs text-slate-300 sm:grid-cols-4">
-            {['Nome', 'Mensagem', 'Fonte', 'Badges'].map((item) => (
-              <div key={item} className="rounded-xl border border-white/10 bg-white/5 px-3 py-3">
-                <p className="font-semibold text-white">{item}</p>
-                <p className="mt-1 text-slate-400">Ajustavel</p>
-              </div>
-            ))}
-          </div>
-        </div>
-      </div>
-    </div>
-  );
-}
+const techRotators = [
+  'Twitch IRC',
+  'OBS Studio',
+  'BTTV',
+  'FrankerFaceZ',
+  'Streamlabs',
+  'XSplit',
+  'Restream',
+  'Twitch IRC',
+];
 
 export function HeroSection() {
+  const [channel, setChannel] = useState('');
+  const previewStyle = presets[0].style;
+
+  useEffect(() => {
+    const handler = (event: MouseEvent) => {
+      const target = (event.currentTarget as HTMLElement | null) ?? document.body;
+      const rect = target.getBoundingClientRect();
+      const x = ((event.clientX - rect.left) / rect.width) * 100;
+      const y = ((event.clientY - rect.top) / rect.height) * 100;
+      target.style.setProperty('--mx', `${x}%`);
+      target.style.setProperty('--my', `${y}%`);
+    };
+    const root = document.getElementById('hero');
+    root?.addEventListener('mousemove', handler);
+    return () => root?.removeEventListener('mousemove', handler);
+  }, []);
+
+  const handleSubmit = (event: React.FormEvent) => {
+    event.preventDefault();
+    const trimmed = channel.trim();
+    if (trimmed) {
+      window.dispatchEvent(new CustomEvent<string>('tcv:channel', { detail: trimmed }));
+    }
+    document.getElementById('studio')?.scrollIntoView({ behavior: 'smooth' });
+  };
+
   return (
-    <header className="relative overflow-hidden border-b border-white/10">
-      <div className="absolute inset-0 bg-[radial-gradient(circle_at_top_left,_rgba(168,85,247,0.18),_transparent_30%),radial-gradient(circle_at_top_right,_rgba(34,211,238,0.14),_transparent_26%),linear-gradient(180deg,_rgba(15,23,42,0.96),_rgba(2,6,23,1))]" />
-      <div className="relative mx-auto max-w-7xl px-6 py-6 lg:px-8">
-        <nav className="flex flex-col gap-4 rounded-full border border-white/10 bg-white/5 px-5 py-4 backdrop-blur md:flex-row md:items-center md:justify-between">
-          <a href="/" className="text-sm font-semibold tracking-[0.25em] text-white uppercase">
-            Twitch Chat Visualizer
-          </a>
-          <div className="flex flex-wrap items-center gap-4 text-sm text-slate-300">
-            {quickLinks.map((link) => (
-              <a key={link.href} href={link.href} className="transition hover:text-white">
-                {link.label}
-              </a>
-            ))}
-            <a
-              href="/transparent"
-              className="inline-flex items-center justify-center rounded-full bg-fuchsia-500 px-4 py-2 font-semibold text-white transition hover:bg-fuchsia-400"
-              aria-label="Abrir painel para gerar meu overlay de chat Twitch"
-            >
-              Gerar meu overlay agora
-            </a>
-          </div>
-        </nav>
+    <header
+      id="hero"
+      className="relative isolate overflow-hidden"
+      style={{ ['--mx' as never]: '50%', ['--my' as never]: '40%' }}
+    >
+      <div
+        aria-hidden="true"
+        className="pointer-events-none absolute inset-0 -z-20 bg-grid mask-fade-b opacity-40"
+      />
+      <div
+        aria-hidden="true"
+        className="pointer-events-none absolute inset-0 -z-30 bg-noise opacity-[0.6]"
+      />
+      <div
+        aria-hidden="true"
+        className="pointer-events-none absolute inset-0 -z-10"
+        style={{
+          background:
+            'radial-gradient(600px circle at var(--mx, 50%) var(--my, 40%), rgba(145, 70, 255, 0.18), transparent 45%)',
+        }}
+      />
+      <div
+        aria-hidden="true"
+        className="pointer-events-none absolute -top-40 -left-32 -z-10 h-[420px] w-[420px] animate-blob rounded-full bg-twitch-500/30 blur-[120px]"
+      />
+      <div
+        aria-hidden="true"
+        className="pointer-events-none absolute -top-20 right-0 -z-10 h-[420px] w-[420px] animate-blob rounded-full bg-cyan-500/20 blur-[120px]"
+        style={{ animationDelay: '-6s' }}
+      />
+      <div
+        aria-hidden="true"
+        className="pointer-events-none absolute bottom-0 left-1/3 -z-10 h-[360px] w-[360px] animate-blob rounded-full bg-fuchsia-500/15 blur-[120px]"
+        style={{ animationDelay: '-12s' }}
+      />
 
-        <section
-          id="hero"
-          className="grid items-center gap-12 py-16 lg:grid-cols-[1.1fr_0.9fr] lg:py-24"
-        >
-          <div>
-            <p className="inline-flex rounded-full border border-fuchsia-400/30 bg-fuchsia-400/10 px-4 py-2 text-sm font-medium text-fuchsia-100">
-              Overlay de chat Twitch para OBS com setup em poucos minutos
-            </p>
-            <h1 className="mt-6 max-w-3xl text-4xl font-black tracking-tight text-white sm:text-5xl lg:text-6xl">
-              O overlay de chat Twitch que deixa sua live mais legivel e profissional.
-            </h1>
-            <p className="mt-6 max-w-2xl text-lg leading-8 text-slate-300">
-              Crie um visualizador de chat para streamers com fundo transparente, personalizacao
-              de cores, badges e emotes. Gere sua URL, integre ao OBS Studio e publique um Twitch
-              chat OBS overlay leve e pronto para conversao da sua audiencia.
-            </p>
-            <div className="mt-8 flex flex-col gap-4 sm:flex-row">
-              <a
-                href="/transparent"
-                className="inline-flex items-center justify-center rounded-full bg-fuchsia-500 px-6 py-3 text-base font-semibold text-white transition hover:bg-fuchsia-400"
-              >
-                Criar meu overlay gratis
-              </a>
-              <a
-                href="#como-funciona"
-                className="inline-flex items-center justify-center rounded-full border border-white/15 px-6 py-3 text-base font-semibold text-white transition hover:bg-white/5"
-              >
-                Ver como funciona
-              </a>
+      <div className="mx-auto grid max-w-7xl items-center gap-12 px-4 pt-12 pb-20 sm:px-6 lg:grid-cols-[1.05fr_0.95fr] lg:gap-16 lg:px-8 lg:pt-20 lg:pb-28">
+        <div>
+          <Reveal as="span" className="inline-flex items-center gap-2 rounded-full border border-white/10 bg-white/5 px-4 py-1.5 text-xs font-medium text-slate-200 backdrop-blur">
+            <span className="relative inline-flex h-2 w-2">
+              <span className="absolute inset-0 animate-pulse-ring rounded-full bg-emerald-400/80" />
+              <span className="relative inline-flex h-2 w-2 rounded-full bg-emerald-400" />
+            </span>
+            <span className="font-semibold tracking-[0.18em] text-emerald-200 uppercase">v1 ao vivo</span>
+            <span className="text-white/40">·</span>
+            <span>open source &amp; gratis</span>
+          </Reveal>
+
+          <Reveal as="h1" delay={80} className="mt-6 text-4xl leading-[1.05] font-black tracking-tight text-balance sm:text-5xl lg:text-[64px]">
+            O <span className="text-gradient-twitch">overlay de chat</span> que sua live merecia.
+          </Reveal>
+
+          <Reveal as="p" delay={150} className="mt-6 max-w-xl text-base leading-7 text-slate-300 sm:text-lg">
+            Studio em tempo real para personalizar cores, badges, emotes e tipografia. Cole a URL no
+            <span className="font-semibold text-white"> OBS Browser Source</span> e tenha um chat
+            limpo, performatico e <span className="font-semibold text-white">100% transparente</span>.
+          </Reveal>
+
+          <Reveal as="form" delay={220} onSubmit={handleSubmit} className="mt-8 flex flex-col gap-3 sm:flex-row">
+            <label htmlFor="hero-channel" className="sr-only">
+              Canal da Twitch
+            </label>
+            <div className="relative flex-1">
+              <span aria-hidden="true" className="absolute top-1/2 left-5 -translate-y-1/2 text-slate-500">
+                twitch.tv/
+              </span>
+              <input
+                id="hero-channel"
+                type="text"
+                value={channel}
+                onChange={(event) => setChannel(event.target.value)}
+                placeholder="seu_canal"
+                spellCheck={false}
+                autoCapitalize="none"
+                autoCorrect="off"
+                className="w-full rounded-full border border-white/10 bg-white/5 py-4 pr-4 pl-[88px] text-base text-white placeholder:text-slate-500 outline-none transition focus:border-twitch-400/70 focus:bg-slate-950/60 focus:shadow-[0_0_0_3px_rgba(167,139,250,0.2)]"
+              />
             </div>
-            <dl className="mt-10 grid gap-4 text-sm text-slate-300 sm:grid-cols-3">
-              <div className="rounded-2xl border border-white/10 bg-white/5 px-4 py-4">
-                <dt className="font-semibold text-white">Setup rapido</dt>
-                <dd className="mt-2">Configure canal, cores e fonte em uma tela simples.</dd>
-              </div>
-              <div className="rounded-2xl border border-white/10 bg-white/5 px-4 py-4">
-                <dt className="font-semibold text-white">Foco em performance</dt>
-                <dd className="mt-2">Estrutura enxuta para manter seu streaming responsivo.</dd>
-              </div>
-              <div className="rounded-2xl border border-white/10 bg-white/5 px-4 py-4">
-                <dt className="font-semibold text-white">Pronto para OBS</dt>
-                <dd className="mt-2">Cole a URL no Browser Source e entre ao vivo.</dd>
-              </div>
-            </dl>
-          </div>
+            <button
+              type="submit"
+              className="group inline-flex items-center justify-center gap-2 rounded-full bg-gradient-to-r from-twitch-500 via-fuchsia-500 to-cyan-400 px-6 py-4 text-sm font-semibold text-white shadow-[0_18px_60px_-20px_rgba(145,70,255,0.7)] transition hover:shadow-[0_18px_60px_-10px_rgba(145,70,255,0.95)]"
+            >
+              <span>Abrir studio</span>
+              <ArrowRight className="h-4 w-4 transition group-hover:translate-x-0.5" aria-hidden="true" />
+            </button>
+          </Reveal>
 
-          <OverlayPreview />
-        </section>
+          <Reveal as="dl" delay={300} className="mt-10 grid max-w-xl grid-cols-3 gap-3">
+            {stats.map((stat) => {
+              const Icon = stat.icon;
+              return (
+                <div
+                  key={stat.label}
+                  className="rounded-2xl border border-white/10 bg-white/5 px-3 py-3 backdrop-blur transition hover:border-white/20 hover:bg-white/10"
+                >
+                  <dt className="flex items-center gap-1.5 text-[10px] font-semibold tracking-widest text-slate-400 uppercase">
+                    <Icon className="h-3 w-3 text-twitch-300" aria-hidden="true" />
+                    {stat.label}
+                  </dt>
+                  <dd className="mt-1.5 text-lg font-bold text-white">{stat.value}</dd>
+                </div>
+              );
+            })}
+          </Reveal>
+        </div>
+
+        <Reveal delay={120} className="relative">
+          <div aria-hidden="true" className="pointer-events-none absolute -inset-6 -z-10 rounded-[3rem] bg-gradient-to-br from-twitch-500/30 via-fuchsia-500/15 to-cyan-500/20 blur-2xl" />
+          <ChatPreview style={previewStyle} channel="seu_canal" intervalMs={2500} maxMessages={5} />
+        </Reveal>
+      </div>
+
+      <div
+        aria-hidden="true"
+        className="relative -mt-2 mask-fade-t opacity-50 [mask-image:linear-gradient(90deg,transparent,black_15%,black_85%,transparent)]"
+      >
+        <div className="flex w-max animate-marquee items-center gap-12 py-6 pr-12 text-xs font-semibold tracking-[0.32em] text-slate-500 uppercase whitespace-nowrap">
+          {[...techRotators, ...techRotators].map((item, idx) => (
+            <span key={`${item}-${idx}`} className="flex items-center gap-3">
+              <span className="inline-flex h-1.5 w-1.5 rounded-full bg-twitch-400/60" />
+              {item}
+            </span>
+          ))}
+        </div>
       </div>
     </header>
   );

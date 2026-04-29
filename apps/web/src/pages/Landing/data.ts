@@ -1,16 +1,19 @@
 export const landingSiteUrl =
-  (import.meta.env.VITE_SITE_URL || 'https://SEU_DOMINIO_AQUI.com').replace(/\/+$/, '');
+  (import.meta.env.VITE_SITE_URL || 'https://twitch.chrisldo.com').replace(/\/+$/, '');
 
 export const googleSiteVerification = import.meta.env.VITE_GOOGLE_SITE_VERIFICATION || '';
 
 export const landingMetadata = {
-  title: 'Overlay de Chat Twitch para OBS | Twitch Chat Visualizer',
+  title: 'Twitch Chat Visualizer | Studio de overlay de chat para OBS',
   description:
-    'Crie um overlay de chat Twitch para OBS em minutos. Personalize cores, badges e emotes, copie a URL e use um visualizador de chat leve para streamers.',
+    'Studio em tempo real para criar um overlay de chat Twitch transparente e pronto para OBS. Personalize cores, badges, emotes e tipografia em segundos. Open source e gratis.',
   keywords:
-    'overlay de chat Twitch, visualizador de chat para streamers, Twitch chat OBS overlay, overlay OBS Twitch, chat Twitch transparente, chat overlay gratis',
+    'overlay de chat Twitch, visualizador de chat para streamers, Twitch chat OBS overlay, overlay OBS Twitch, chat Twitch transparente, chat overlay gratis, twitch chat visualizer',
   canonicalUrl: `${landingSiteUrl}/`,
   ogImage: `${landingSiteUrl}/og-image.svg`,
+  authorName: 'Christopher de Oliveira',
+  authorUrl: 'https://chrisldo.com',
+  repoUrl: 'https://github.com/christopherldo/twitch-chat-visualizer',
 } as const;
 
 export const softwareApplicationSchema = {
@@ -28,66 +31,83 @@ export const softwareApplicationSchema = {
   description: landingMetadata.description,
   url: landingMetadata.canonicalUrl,
   image: landingMetadata.ogImage,
+  author: {
+    '@type': 'Person',
+    name: landingMetadata.authorName,
+    url: landingMetadata.authorUrl,
+  },
+  sameAs: [landingMetadata.repoUrl, landingMetadata.authorUrl],
   featureList: [
-    'Overlay de chat Twitch transparente para OBS',
-    'Personalizacao de cores e tipografia',
-    'Renderizacao de emotes e badges',
-    'Baixo consumo de CPU',
-    'Geracao instantanea de URL para Browser Source',
+    'Studio em tempo real com preview animado',
+    'Presets visuais para diferentes formatos de live',
+    'Personalizacao de cores, badges e tipografia',
+    'Renderizacao de emotes Twitch, BTTV e FFZ',
+    'Sanitizacao XSS e baixa latencia via Socket.IO',
+    'Geracao instantanea de URL para Browser Source no OBS',
   ],
 } as const;
 
 export const features = [
   {
-    title: 'Personalizacao total',
+    title: 'Studio em tempo real',
     description:
-      'Ajuste fundo, cor do nome, cor da mensagem e fonte para combinar com a identidade visual da sua live.',
+      'Veja cada ajuste de cor, fonte ou preset acontecer no preview animado, com mensagens simuladas indo e vindo.',
   },
   {
-    title: 'Leve para transmitir',
+    title: 'Performance enterprise',
     description:
-      'Overlay enxuto, rapido e com baixo impacto para manter seu setup responsivo durante streaming e gravacao.',
+      'WebSocket dedicado, conexao TMI compartilhada e cache em Redis. Latencia proxima de zero ate em chats lotados.',
   },
   {
-    title: 'Integracao simples com OBS',
+    title: 'Pronto pra OBS, XSplit & cia',
     description:
-      'Configure o visual, copie a URL do Browser Source e cole no OBS Studio sem extensoes complicadas.',
+      'Cole a URL em qualquer Browser Source, defina largura/altura e mantenha "refresh on scene active" — pronto.',
   },
   {
-    title: 'Emotes e badges nativos',
+    title: 'Emotes & badges nativos',
     description:
-      'Mostre nomes, badges e mensagens em um layout legivel para destacar a conversa da sua comunidade.',
+      'Suporte oficial para emotes Twitch, BTTV e FFZ. Mostre badges de mod, sub, VIP e bits sem configuracao extra.',
   },
   {
-    title: 'Gratis para sempre',
+    title: 'Sanitizacao XSS',
     description:
-      'Use o visualizador de chat para streamers sem barreiras de entrada, assinaturas ou bloqueios de recursos.',
+      'Cada mensagem passa por um sanitizador estrito antes de entrar na cena. Seu OBS continua seguro mesmo em chats hostis.',
   },
   {
-    title: 'Pronto para cenas transparentes',
+    title: 'Presets feitos com gosto',
     description:
-      'Ideal para overlays limpos com fundo transparente, encaixando no design da sua cena principal ou vertical.',
+      'De Twitch Classic a Cyberwave, escolha o tema que combina com a sua identidade ou comece do zero.',
+  },
+  {
+    title: 'Customizacao via URL',
+    description:
+      'Toda configuracao mora na URL. Compartilhe com seus moderadores, salve em alias do OBS ou versione no seu git.',
+  },
+  {
+    title: 'Open source e gratis',
+    description:
+      'Codigo aberto sob MIT. Self-host, fork, contribua. Sem trial, sem rate limit, sem upsell.',
   },
 ] as const;
 
 export const howItWorksSteps = [
   {
     step: '1',
-    title: 'Configure as cores',
+    title: 'Personalize no studio',
     description:
-      'Escolha o canal, ajuste paleta e tamanho da fonte ate o overlay combinar com o seu setup.',
+      'Escolha um preset, ajuste cores e fonte, e veja o chat reagir em tempo real com mensagens simuladas.',
   },
   {
     step: '2',
-    title: 'Copie o link',
+    title: 'Copie a URL gerada',
     description:
-      'O painel gera automaticamente a URL do seu overlay de chat Twitch com todos os parametros salvos.',
+      'A URL ja vem com canal, cores e tamanho da fonte salvos. Compartilhe com a sua equipe ou versione com a sua cena.',
   },
   {
     step: '3',
     title: 'Cole no OBS',
     description:
-      'Adicione uma Browser Source no OBS Studio, cole a URL e deixe o chat aparecendo ao vivo na sua cena.',
+      'Adicione uma Browser Source, cole a URL, ajuste largura e altura. Sua cena ganha um chat ao vivo na hora.',
   },
 ] as const;
 
@@ -95,17 +115,17 @@ export const useCases = [
   {
     title: 'Streamers de games',
     description:
-      'Mostre o chat na tela sem sacrificar desempenho, mantendo leitura facil durante partidas intensas.',
+      'Mostre o chat sem perder FPS. Cores que combinam com a sua HUD e tamanho ajustavel para qualquer resolucao.',
   },
   {
-    title: 'Podcasters e talk shows',
+    title: 'Podcasts e talk shows',
     description:
-      'Destaque perguntas do publico em entrevistas, reacts e programas ao vivo com um layout elegante.',
+      'Destaque perguntas do publico em entrevistas, reacts e programas ao vivo com um layout legivel para a tela toda.',
   },
   {
     title: 'Eventos e e-sports',
     description:
-      'Use o Twitch chat OBS overlay em coberturas, watch parties e campeonatos para aproximar audiencia e apresentacao.',
+      'Coberturas, watch parties e campeonatos: mantenha o chat das comunidades visivel ao lado do gameplay.',
   },
 ] as const;
 
@@ -113,27 +133,32 @@ export const faqItems = [
   {
     question: 'Como criar um overlay de chat Twitch para OBS?',
     answer:
-      'Basta abrir o painel, informar o canal, ajustar cores e fonte, copiar a URL gerada e colar em uma Browser Source no OBS Studio.',
+      'Abra o studio direto na pagina, informe o canal, ajuste cores e fonte, copie a URL gerada e cole em uma Browser Source no OBS Studio. Pronto, ja esta no ar.',
   },
   {
     question: 'O Twitch Chat Visualizer e gratis?',
     answer:
-      'Sim. O gerador de overlay de chat Twitch e gratis para usar e foi pensado para streamers que querem agilidade e personalizacao.',
+      'Sim. O projeto e open source sob licenca MIT. Sem cadastro, sem assinatura, sem rate limit. Voce pode usar, hospedar e contribuir como quiser.',
   },
   {
     question: 'Funciona com fundo transparente?',
     answer:
-      'Sim. O overlay transparente foi feito para cenas no OBS, permitindo encaixe limpo sobre gameplay, webcam ou layout de podcast.',
+      'Sim. O overlay e desenhado para cenas no OBS, ficando 100% transparente sobre gameplay, webcam, podcast ou layouts verticais.',
   },
   {
     question: 'O overlay mostra badges e emotes do chat?',
     answer:
-      'Sim. O visualizador de chat exibe mensagens e badges recebidos pelo overlay, preservando identidade da comunidade e leitura.',
+      'Sim. Renderizamos badges nativos da Twitch (mod, sub, VIP, bits) e emotes da Twitch, BTTV e FrankerFaceZ, com cache em Redis para evitar rate limit.',
   },
   {
-    question: 'Preciso instalar algum plugin no OBS?',
+    question: 'Preciso instalar plugin no OBS?',
     answer:
-      'Nao. O fluxo usa apenas Browser Source. Voce configura no navegador, copia o link e cola no OBS ou software compativel.',
+      'Nao. Tudo acontece via Browser Source. Voce gera a URL no studio, cola no OBS ou em qualquer software de streaming compativel e segue o fluxo.',
+  },
+  {
+    question: 'Posso hospedar a minha propria copia?',
+    answer:
+      'Sim. O monorepo (apps/api + apps/web) ja vem com docker-compose para subir tudo localmente ou em uma VPS. Veja o README no GitHub.',
   },
 ] as const;
 

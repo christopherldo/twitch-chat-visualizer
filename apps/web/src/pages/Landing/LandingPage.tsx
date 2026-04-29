@@ -1,10 +1,12 @@
 import { Helmet } from 'react-helmet-async';
+import { Nav } from '../../components/Nav';
 import { CallToActionSection } from './CallToActionSection';
 import { FAQSection } from './FAQSection';
 import { FeaturesSection } from './FeaturesSection';
 import { FooterSection } from './FooterSection';
 import { HeroSection } from './HeroSection';
 import { HowItWorksSection } from './HowItWorksSection';
+import { StudioSection } from './StudioSection';
 import { UseCasesSection } from './UseCasesSection';
 import {
   faqSchema,
@@ -29,6 +31,7 @@ export function LandingPage({ disableHelmet = false }: LandingPageProps) {
           <meta name="description" content={landingMetadata.description} />
           <meta name="keywords" content={landingMetadata.keywords} />
           <meta name="robots" content="index, follow, max-image-preview:large" />
+          <meta name="author" content={landingMetadata.authorName} />
 
           <meta property="og:type" content="website" />
           <meta property="og:locale" content="pt_BR" />
@@ -44,6 +47,7 @@ export function LandingPage({ disableHelmet = false }: LandingPageProps) {
           <meta name="twitter:image" content={landingMetadata.ogImage} />
 
           <link rel="canonical" href={landingMetadata.canonicalUrl} />
+          <link rel="author" href={landingMetadata.authorUrl} />
 
           {googleSiteVerification ? (
             <meta name="google-site-verification" content={googleSiteVerification} />
@@ -54,19 +58,30 @@ export function LandingPage({ disableHelmet = false }: LandingPageProps) {
         </Helmet>
       ) : null}
 
-      <div className="min-h-screen bg-slate-950 text-slate-100">
-        <a href="#conteudo" className="sr-only focus:not-sr-only focus:absolute focus:left-4 focus:top-4">
+      <div className="relative min-h-screen overflow-x-clip text-slate-100">
+        <a
+          href="#conteudo"
+          className="sr-only focus:not-sr-only focus:absolute focus:top-4 focus:left-4 focus:z-50 focus:rounded-full focus:bg-twitch-500 focus:px-4 focus:py-2 focus:text-sm focus:font-semibold focus:text-white"
+        >
           Pular para o conteudo
         </a>
+        <div className="px-4 sm:px-6 lg:px-8">
+          <Nav repoUrl={landingMetadata.repoUrl} />
+        </div>
         <HeroSection />
         <main id="conteudo">
+          <StudioSection />
           <FeaturesSection />
           <HowItWorksSection />
           <UseCasesSection />
           <FAQSection />
-          <CallToActionSection />
+          <CallToActionSection repoUrl={landingMetadata.repoUrl} />
         </main>
-        <FooterSection />
+        <FooterSection
+          repoUrl={landingMetadata.repoUrl}
+          authorUrl={landingMetadata.authorUrl}
+          authorName={landingMetadata.authorName}
+        />
       </div>
     </>
   );

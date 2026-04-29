@@ -1,40 +1,53 @@
+import { Gamepad2, Mic, Trophy } from 'lucide-react';
+import { Reveal } from '../../components/Reveal';
 import { useCases } from './data';
+
+const icons = [Gamepad2, Mic, Trophy] as const;
 
 export function UseCasesSection() {
   return (
-    <section id="casos-de-uso" className="mx-auto max-w-7xl px-6 py-20 lg:px-8">
-      <div className="grid gap-10 lg:grid-cols-[0.95fr_1.05fr] lg:items-start">
-        <div className="max-w-2xl">
-          <p className="text-sm font-semibold tracking-[0.25em] text-fuchsia-400 uppercase">
+    <section id="casos-de-uso" className="relative mx-auto max-w-7xl scroll-mt-28 px-4 py-24 sm:px-6 lg:px-8">
+      <div className="grid gap-12 lg:grid-cols-[0.95fr_1.05fr] lg:items-start">
+        <Reveal className="max-w-2xl">
+          <span className="inline-flex items-center gap-2 rounded-full border border-fuchsia-400/30 bg-fuchsia-500/10 px-4 py-1.5 text-xs font-semibold tracking-[0.18em] text-fuchsia-200 uppercase">
             Casos de uso
-          </p>
-          <h2 className="mt-4 text-3xl font-black tracking-tight text-white sm:text-4xl">
-            Um visualizador de chat para streamers, eventos e formatos ao vivo.
+          </span>
+          <h2 className="mt-5 text-3xl font-black tracking-tight text-balance sm:text-4xl lg:text-5xl">
+            Um overlay, <span className="text-gradient-twitch">infinitos formatos</span>.
           </h2>
-          <p className="mt-4 text-lg leading-8 text-slate-300">
-            O mesmo overlay de chat Twitch atende criadores solo, podcasts, coberturas especiais
-            e operacoes multicena que precisam de leitura clara e integracao rapida com OBS.
+          <p className="mt-4 text-base leading-7 text-slate-300 sm:text-lg">
+            Do gameplay frenetico ao podcast intimo, do festival de e-sports a watch party. O mesmo
+            chat acompanha o seu ritmo.
           </p>
-          <div className="mt-8 rounded-3xl border border-cyan-400/20 bg-cyan-400/10 p-6 text-cyan-50">
-            <h3 className="text-xl font-semibold">Por que isso converte melhor?</h3>
-            <p className="mt-3 leading-7">
+          <div className="mt-8 rounded-3xl border border-cyan-400/20 bg-gradient-to-br from-cyan-500/10 via-cyan-500/5 to-transparent p-6 text-cyan-50">
+            <h3 className="text-xl font-bold">Por que isso converte melhor?</h3>
+            <p className="mt-3 text-sm leading-7 text-cyan-100/80">
               Um chat visivel e organizado aumenta interacao, retencao e sensacao de comunidade.
-              Quanto mais facil for mostrar a conversa ao vivo, maior o engajamento percebido na
-              tela.
+              Quanto mais facil mostrar a conversa ao vivo, maior o engajamento percebido na tela.
             </p>
           </div>
-        </div>
+        </Reveal>
 
-        <div className="grid gap-6">
-          {useCases.map((item) => (
-            <article
-              key={item.title}
-              className="rounded-3xl border border-white/10 bg-white/5 p-6 shadow-lg shadow-slate-950/20"
-            >
-              <h3 className="text-2xl font-semibold text-white">{item.title}</h3>
-              <p className="mt-3 text-base leading-7 text-slate-300">{item.description}</p>
-            </article>
-          ))}
+        <div className="grid gap-4">
+          {useCases.map((item, index) => {
+            const Icon = icons[index % icons.length];
+            return (
+              <Reveal
+                key={item.title}
+                as="article"
+                delay={index * 80}
+                className="group flex gap-4 rounded-3xl border border-white/10 bg-white/[0.04] p-6 transition hover:-translate-y-0.5 hover:border-white/20 hover:bg-white/[0.07]"
+              >
+                <div className="inline-flex h-12 w-12 shrink-0 items-center justify-center rounded-2xl border border-white/10 bg-gradient-to-br from-twitch-500/30 via-fuchsia-500/15 to-transparent text-twitch-200">
+                  <Icon className="h-5 w-5" aria-hidden="true" />
+                </div>
+                <div>
+                  <h3 className="text-xl font-bold text-white">{item.title}</h3>
+                  <p className="mt-2 text-sm leading-7 text-slate-300">{item.description}</p>
+                </div>
+              </Reveal>
+            );
+          })}
         </div>
       </div>
     </section>
