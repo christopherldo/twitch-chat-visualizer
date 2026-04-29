@@ -83,10 +83,13 @@ sudo systemctl enable docker
 sudo systemctl start docker
 sudo usermod -aG docker ec2-user
 
-# Instala Docker Compose V2
+# Instala Docker Compose V2 e Docker Buildx (necessário para o Compose V2)
 mkdir -p /usr/local/lib/docker/cli-plugins
 curl -SL https://github.com/docker/compose/releases/latest/download/docker-compose-linux-aarch64 -o /usr/local/lib/docker/cli-plugins/docker-compose
 chmod +x /usr/local/lib/docker/cli-plugins/docker-compose
+
+curl -SL https://github.com/docker/buildx/releases/latest/download/buildx-v0.17.1.linux-arm64 -o /usr/local/lib/docker/cli-plugins/docker-buildx
+chmod +x /usr/local/lib/docker/cli-plugins/docker-buildx
 
 # Cria pasta do projeto
 mkdir -p /home/ec2-user/app
