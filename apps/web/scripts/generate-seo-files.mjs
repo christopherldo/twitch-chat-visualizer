@@ -1,7 +1,7 @@
 import { mkdir, writeFile } from 'node:fs/promises';
 import path from 'node:path';
 
-const defaultSiteUrl = 'https://SEU_DOMINIO_AQUI.com';
+const defaultSiteUrl = 'https://twitch.chrisldo.com';
 const siteUrl = (process.env.VITE_SITE_URL || defaultSiteUrl).replace(/\/+$/, '');
 const publicDir = path.resolve(process.cwd(), 'public');
 

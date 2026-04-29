@@ -1,4 +1,4 @@
 User-agent: *
 Allow: /
 
-Sitemap: https://SEU_DOMINIO_AQUI.com/sitemap.xml
+Sitemap: https://twitch.chrisldo.com/sitemap.xml

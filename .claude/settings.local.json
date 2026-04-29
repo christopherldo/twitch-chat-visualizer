@@ -1,0 +1,12 @@
+{
+  "permissions": {
+    "allow": [
+      "Bash(pnpm --filter @twitch-chat-visualizer/web dev)",
+      "Bash(curl -fsS -o /dev/null http://localhost:5173/)",
+      "Bash(curl -fsS -o /tmp/landing.html -w \"HTTP %{http_code}\\\\nbytes %{size_download}\\\\n\" http://localhost:5173/)",
+      "Bash(curl -fsS -o /tmp/studio.html -w \"HTTP %{http_code}\\\\nbytes %{size_download}\\\\n\" http://localhost:5173/transparent)",
+      "Bash(kill %1)",
+      "Bash(pkill -f \"vite\")"
+    ]
+  }
+}

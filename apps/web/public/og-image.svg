@@ -1,26 +1,100 @@
 <svg width="1200" height="630" viewBox="0 0 1200 630" fill="none" xmlns="http://www.w3.org/2000/svg">
-  <rect width="1200" height="630" rx="32" fill="#020617"/>
-  <rect x="40" y="40" width="1120" height="550" rx="28" fill="url(#bg)"/>
-  <rect x="92" y="112" width="470" height="368" rx="28" fill="#0F172A" stroke="#334155"/>
-  <rect x="132" y="162" width="214" height="48" rx="24" fill="#A855F7" fill-opacity="0.18"/>
-  <circle cx="164" cy="186" r="8" fill="#E879F9"/>
-  <text x="186" y="193" fill="#F8FAFC" font-family="Arial, Helvetica, sans-serif" font-size="22" font-weight="700">streamerpro</text>
-  <rect x="132" y="224" width="354" height="110" rx="24" fill="#F8FAFC"/>
-  <text x="160" y="272" fill="#0F172A" font-family="Arial, Helvetica, sans-serif" font-size="28" font-weight="700">Overlay de chat Twitch</text>
-  <text x="160" y="314" fill="#334155" font-family="Arial, Helvetica, sans-serif" font-size="24">Pronto para OBS em poucos minutos.</text>
-  <rect x="614" y="122" width="474" height="60" rx="30" fill="#A855F7" fill-opacity="0.16"/>
-  <text x="648" y="160" fill="#F5D0FE" font-family="Arial, Helvetica, sans-serif" font-size="24" font-weight="700">Twitch Chat Visualizer</text>
-  <text x="614" y="248" fill="#FFFFFF" font-family="Arial, Helvetica, sans-serif" font-size="56" font-weight="800">Overlay de Chat Twitch</text>
-  <text x="614" y="312" fill="#E2E8F0" font-family="Arial, Helvetica, sans-serif" font-size="34" font-weight="600">Visualizador de chat para streamers</text>
-  <text x="614" y="368" fill="#CBD5E1" font-family="Arial, Helvetica, sans-serif" font-size="28">Twitch chat OBS overlay com fundo transparente,</text>
-  <text x="614" y="408" fill="#CBD5E1" font-family="Arial, Helvetica, sans-serif" font-size="28">badges, emotes e configuracao rapida.</text>
-  <rect x="614" y="456" width="286" height="64" rx="32" fill="#FFFFFF"/>
-  <text x="660" y="496" fill="#020617" font-family="Arial, Helvetica, sans-serif" font-size="24" font-weight="700">Criar overlay gratis</text>
   <defs>
-    <linearGradient id="bg" x1="40" y1="40" x2="1160" y2="590" gradientUnits="userSpaceOnUse">
-      <stop stop-color="#111827"/>
-      <stop offset="0.5" stop-color="#1E1B4B"/>
-      <stop offset="1" stop-color="#0F172A"/>
+    <linearGradient id="bg" x1="0" y1="0" x2="1200" y2="630" gradientUnits="userSpaceOnUse">
+      <stop offset="0" stop-color="#0b0521"/>
+      <stop offset="0.5" stop-color="#1e1147"/>
+      <stop offset="1" stop-color="#04111f"/>
     </linearGradient>
+    <linearGradient id="brand" x1="0" y1="0" x2="1" y2="1">
+      <stop offset="0" stop-color="#a78bfa"/>
+      <stop offset="0.5" stop-color="#9146ff"/>
+      <stop offset="1" stop-color="#22d3ee"/>
+    </linearGradient>
+    <linearGradient id="accent" x1="0" y1="0" x2="1" y2="0">
+      <stop offset="0" stop-color="#9146ff"/>
+      <stop offset="1" stop-color="#22d3ee"/>
+    </linearGradient>
+    <radialGradient id="glow1" cx="0.2" cy="0.2" r="0.6">
+      <stop offset="0" stop-color="#9146ff" stop-opacity="0.55"/>
+      <stop offset="1" stop-color="#9146ff" stop-opacity="0"/>
+    </radialGradient>
+    <radialGradient id="glow2" cx="0.85" cy="0.85" r="0.6">
+      <stop offset="0" stop-color="#22d3ee" stop-opacity="0.45"/>
+      <stop offset="1" stop-color="#22d3ee" stop-opacity="0"/>
+    </radialGradient>
+    <pattern id="grid" width="56" height="56" patternUnits="userSpaceOnUse">
+      <path d="M56 0 L0 0 0 56" stroke="rgba(255,255,255,0.05)" stroke-width="1" fill="none"/>
+    </pattern>
   </defs>
+
+  <rect width="1200" height="630" fill="url(#bg)"/>
+  <rect width="1200" height="630" fill="url(#grid)"/>
+  <rect width="1200" height="630" fill="url(#glow1)"/>
+  <rect width="1200" height="630" fill="url(#glow2)"/>
+
+  <g transform="translate(72 72)">
+    <rect width="48" height="48" rx="14" fill="url(#brand)"/>
+    <path d="M14 18 H34 C36 18 37 19 37 21 V31 C37 33 36 34 34 34 H24 L18 38 V34 H14 C12 34 11 33 11 31 V21 C11 19 12 18 14 18 Z" stroke="white" stroke-width="2.2" stroke-linejoin="round" fill="none"/>
+    <circle cx="18" cy="26" r="1.4" fill="white"/>
+    <circle cx="24" cy="26" r="1.4" fill="white"/>
+    <circle cx="30" cy="26" r="1.4" fill="white"/>
+  </g>
+  <text x="138" y="100" fill="#ffffff" font-family="Inter, Arial, Helvetica, sans-serif" font-size="22" font-weight="800" letter-spacing="1">Twitch Chat Visualizer</text>
+  <text x="138" y="124" fill="rgba(255,255,255,0.55)" font-family="Inter, Arial, Helvetica, sans-serif" font-size="11" font-weight="600" letter-spacing="4">LIVE OVERLAY STUDIO</text>
+
+  <text x="72" y="244" fill="white" font-family="Inter, Arial, Helvetica, sans-serif" font-size="78" font-weight="900" letter-spacing="-2">Overlay de chat</text>
+  <text x="72" y="324" fill="url(#brand)" font-family="Inter, Arial, Helvetica, sans-serif" font-size="78" font-weight="900" letter-spacing="-2">para OBS, em segundos.</text>
+  <text x="72" y="384" fill="rgba(226,232,240,0.85)" font-family="Inter, Arial, Helvetica, sans-serif" font-size="26" font-weight="500">Studio em tempo real com presets, color picker</text>
+  <text x="72" y="418" fill="rgba(226,232,240,0.85)" font-family="Inter, Arial, Helvetica, sans-serif" font-size="26" font-weight="500">e URL pronta pra Browser Source.</text>
+
+  <g transform="translate(72 472)">
+    <rect width="244" height="58" rx="29" fill="white"/>
+    <text x="122" y="38" fill="#0b0521" font-family="Inter, Arial, Helvetica, sans-serif" font-size="20" font-weight="800" text-anchor="middle">Abrir o studio</text>
+  </g>
+  <g transform="translate(332 472)">
+    <rect width="220" height="58" rx="29" fill="none" stroke="rgba(255,255,255,0.35)" stroke-width="2"/>
+    <text x="110" y="38" fill="white" font-family="Inter, Arial, Helvetica, sans-serif" font-size="20" font-weight="700" text-anchor="middle">github.com/christopherldo</text>
+  </g>
+
+  <g transform="translate(720 122)">
+    <rect width="408" height="412" rx="32" fill="rgba(8,4,28,0.7)" stroke="rgba(255,255,255,0.12)"/>
+    <rect x="0" y="0" width="408" height="46" rx="32" fill="rgba(8,4,28,0.85)"/>
+    <circle cx="22" cy="23" r="4" fill="#f43f5e"/>
+    <text x="38" y="29" fill="rgba(244,63,94,0.95)" font-family="Inter, Arial, Helvetica, sans-serif" font-size="11" font-weight="800" letter-spacing="3">LIVE</text>
+    <text x="86" y="29" fill="rgba(255,255,255,0.55)" font-family="Inter, Arial, Helvetica, sans-serif" font-size="11">browser source · #seu_canal</text>
+
+    <g transform="translate(28 90)">
+      <rect width="122" height="32" rx="3" fill="#9146ff"/>
+      <text x="61" y="21" fill="white" font-family="Inter, Arial, Helvetica, sans-serif" font-size="13" font-weight="800" text-anchor="middle">STREAMERPRO</text>
+      <rect x="134" y="6" width="222" height="32" rx="10" fill="white"/>
+      <text x="148" y="27" fill="#0f172a" font-family="Inter, Arial, Helvetica, sans-serif" font-size="13" font-weight="700">overlay liiindo demais</text>
+    </g>
+
+    <g transform="translate(28 142)">
+      <rect width="86" height="32" rx="3" fill="#1e293b"/>
+      <text x="43" y="21" fill="#a5b4fc" font-family="Inter, Arial, Helvetica, sans-serif" font-size="13" font-weight="800" text-anchor="middle">VIEWER42</text>
+      <rect x="98" y="6" width="262" height="32" rx="10" fill="#0f172a"/>
+      <text x="112" y="27" fill="#e2e8f0" font-family="Inter, Arial, Helvetica, sans-serif" font-size="13" font-weight="700">qual a config disso aqui</text>
+    </g>
+
+    <g transform="translate(28 194)">
+      <rect width="100" height="32" rx="3" fill="#ec4899"/>
+      <text x="50" y="21" fill="white" font-family="Inter, Arial, Helvetica, sans-serif" font-size="13" font-weight="800" text-anchor="middle">MODCHAT</text>
+      <rect x="112" y="6" width="262" height="32" rx="10" fill="#fdf2f8"/>
+      <text x="126" y="27" fill="#831843" font-family="Inter, Arial, Helvetica, sans-serif" font-size="13" font-weight="700">latencia zero, performance topa</text>
+    </g>
+
+    <g transform="translate(28 268)">
+      <rect width="352" height="56" rx="14" fill="rgba(255,255,255,0.05)" stroke="rgba(255,255,255,0.1)"/>
+      <text x="20" y="26" fill="rgba(226,232,240,0.6)" font-family="Inter, Arial, Helvetica, sans-serif" font-size="10" font-weight="700" letter-spacing="2">URL OBS</text>
+      <text x="20" y="46" fill="white" font-family="ui-monospace, Menlo, Consolas, monospace" font-size="11">/seu_canal/transparent?fontsize=16</text>
+    </g>
+    <g transform="translate(28 340)">
+      <rect width="110" height="36" rx="18" fill="url(#accent)"/>
+      <text x="55" y="23" fill="white" font-family="Inter, Arial, Helvetica, sans-serif" font-size="12" font-weight="800" text-anchor="middle">COPIADO</text>
+    </g>
+  </g>
+
+  <text x="72" y="582" fill="rgba(255,255,255,0.55)" font-family="Inter, Arial, Helvetica, sans-serif" font-size="14" font-weight="600">React 19 · NestJS 11 · Socket.IO · Redis</text>
+  <text x="1128" y="582" fill="rgba(255,255,255,0.55)" font-family="Inter, Arial, Helvetica, sans-serif" font-size="14" font-weight="600" text-anchor="end">por Christopher de Oliveira · chrisldo.com</text>
 </svg>
