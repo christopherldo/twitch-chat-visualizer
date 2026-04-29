@@ -59,7 +59,7 @@ const dbSubnetGroup = new aws.rds.SubnetGroup('db-subnet-group', {
 
 const postgresDb = new aws.rds.Instance('postgres-db', {
   engine: 'postgres',
-  engineVersion: '16.3',
+  engineVersion: '16.13', // Versão suportada verificada na AWS
   instanceClass: 'db.t4g.micro', // Free Tier
   allocatedStorage: 20, // Free Tier contempla 20GB
   dbName: 'twitchchat',
