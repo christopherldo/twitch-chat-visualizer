@@ -1,5 +1,5 @@
 /// <reference types="vitest" />
-import { defineConfig } from 'vite';
+import { defineConfig } from 'vitest/config';
 import react from '@vitejs/plugin-react';
 import tailwindcss from '@tailwindcss/vite';
 import path from 'path';
@@ -14,7 +14,15 @@ export default defineConfig({
       renderTarget: '#root',
       prerenderScript: path.resolve(__dirname, './src/prerender.tsx'),
       previewMiddlewareFallback: '/spa.html',
-    }),
+    }) as any,
+    {
+      name: 'force-close-react-19-prerender',
+      apply: 'build',
+      closeBundle() {
+        // Correção para o Vite travar ao final do build com React 19 + SSR
+        setTimeout(() => process.exit(0), 500);
+      }
+    }
   ],
   resolve: {
     alias: {
