@@ -1,0 +1,3 @@
+name: twitch-chat-visualizer
+runtime: nodejs
+description: Infrastructure for Twitch Chat Visualizer targeting AWS Free Tier
